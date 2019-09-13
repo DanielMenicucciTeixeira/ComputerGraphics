@@ -1,0 +1,3 @@
+﻿  Scene0.cpp
+d:\humber\computer graphics\componentframework1.0.4\componentframework\scene0.cpp(81): warning C4018: '<': signed/unsigned mismatch
+  ComponentFramework.vcxproj -> D:\Humber\Computer Graphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe
