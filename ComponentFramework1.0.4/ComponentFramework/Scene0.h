@@ -2,6 +2,7 @@
 #define SCENE0_H
 #include "Scene.h"
 #include "Vector.h"
+#include "Light.h"
 #include <vector>
 using namespace MATH;
 
@@ -17,7 +18,7 @@ class Scene0 : public Scene {
 private:
 	Camera *camera;
 	GameObject *gameObject;
-	std::vector<Vec3> LightSourcesVector;
+	std::vector<Light> LightSources;
 	//Vec3 lightSource;
 	Mesh *meshPtr;
 	Shader *shaderPtr;

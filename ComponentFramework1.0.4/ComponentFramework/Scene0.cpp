@@ -38,8 +38,13 @@ bool Scene0::OnCreate() {
 		Debug::FatalError("GameObject could not be created", __FILE__, __LINE__);
 		return false;
 	}
-	LightSourcesVector.push_back(Vec3 (3.0, 0.0, 0.0));
-	LightSourcesVector.push_back(Vec3 (0.0, 3.0, 0.0));
+
+	//Creating each light and setting it's position
+	LightSources.push_back(Light());
+	LightSources[0].Position = Vec3(3.0, 16.0, 0.0);
+	LightSources.push_back(Light());
+	LightSources[1].Position = Vec3(-3.0, 16.0, 0.0);
+
 
 	return true;
 }
@@ -73,21 +78,15 @@ void Scene0::Render() const {
 	/// These pass the matricies and the light position to the GPU
 	glUniformMatrix4fv(gameObject->getShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
 	glUniformMatrix4fv(gameObject->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, camera->getViewMatrix());
-	glUniform1i(gameObject->getShader()->getUniformID("NumberOfLights"),LightSourcesVector.size());
+	glUniform1i(gameObject->getShader()->getUniformID("NumberOfLights"),LightSources.size());
 
 
 
-	char Location[] = "lightPos[0]";
-	for (int i = 0; i < LightSourcesVector.size(); i++)
+	char Location[] = "lightPos[0]";//This parameter must be passed to find the adress of the firt variable of the array.
+	for (int i = 0; i < LightSources.size(); i++)
 	{
-		//Location[9] = '0'+i+1;
-		Location[9] = '0' + i;
-		glUniform3fv(gameObject->getShader()->getUniformID("lightPos[0]") + i, 1, LightSourcesVector[i]);
-		/*
-		printf("LSV=%i\t", LightSourcesVector.size());
-		printf(Location);
-		printf("/n");
-		*/
+		//each variable beyond the first is located one unit after the prior varible, just like in the array, so this just parses through them, one by one, setting the Position values
+		glUniform3fv(gameObject->getShader()->getUniformID("lightPos[0]") + i, 1, LightSources[i].Position);
 	}
 
 	gameObject->Render();
