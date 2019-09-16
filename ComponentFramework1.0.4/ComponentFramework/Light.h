@@ -9,11 +9,11 @@ class Light
 {
 public:
 	Light();
-	Light(Vec4 colour, Vec4 intensity, Vec3 position);
+	Light(Vec4 colour, float intensity, Vec3 position);
 	~Light();
 
 	Vec4 Colour;
-	Vec4 Intensity;
+	float Intensity;
 	Vec3 Position;
 
 };

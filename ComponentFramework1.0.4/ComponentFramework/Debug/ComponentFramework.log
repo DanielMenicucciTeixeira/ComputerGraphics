@@ -1,3 +1,6 @@
 ﻿  Scene0.cpp
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(86): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(43): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(44): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(45): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(85): warning C4018: '<': signed/unsigned mismatch
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe
