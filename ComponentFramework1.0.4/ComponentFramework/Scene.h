@@ -13,6 +13,8 @@ public:
 	virtual void HandleEvents(const SDL_Event &sdlEvent) = 0;
 
 protected:
+
+	float Pi = 22 / 7;
 	
 };
 #endif

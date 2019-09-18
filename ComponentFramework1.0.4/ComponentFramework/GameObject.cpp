@@ -19,6 +19,16 @@ GameObject::~GameObject() {}
 
 void GameObject::Update(float deltaTime_) {}
 
+Vec3 GameObject::GetPosition()
+{
+	return Vec3(modelMatrix[12], modelMatrix[13], modelMatrix[14]);
+}
+
+void GameObject::SetTexture(Texture * TextureToSet)
+{
+	texture = TextureToSet;
+}
+
 void GameObject::Render() const {
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);

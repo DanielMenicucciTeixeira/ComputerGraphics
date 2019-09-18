@@ -2,22 +2,27 @@
 #define GAMESCENEMANAGER_H
 
 #include <string>
-class GameSceneManager  {
+
+enum SCENE_NUMBER
+{
+	SCENE0 = 0,
+	SCENE1 = 1,
+	SCENE2 = 2
+};
+
+class GameSceneManager  
+{
 public:
 	
 	GameSceneManager();
 	~GameSceneManager();
 	void Run();
-	bool Init(std::string name_, int width_, int height_);
+	bool Init(std::string name_, int width_, int height_, SCENE_NUMBER sceneToRun);
 	void HandleEvents();
 	
 	
 private:
-	enum SCENE_NUMBER {
-		SCENE0 = 0,
-		SCENE1,
-		SCENE2
-	};
+
 	class Scene* currentScene;
 	class Timer* timer;
 	class Window* window;

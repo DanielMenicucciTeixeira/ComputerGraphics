@@ -7,14 +7,14 @@
 #include "Debug.h"
 
   
-int main(int argc, char* args[]) {
-
+int main(int argc, char* args[]) 
+{
 	std::string name = { "Graphics Game Engine" };
 	Debug::DebugInit(name + "_Log");
 	Debug::Info("Starting the GameSceneManager", __FILE__, __LINE__);
 	
 	GameSceneManager* gsm = new GameSceneManager();
-	if (gsm->Init(name, 1280, 720) ==  true) {
+	if (gsm->Init(name, 1280, 720, SCENE1) ==  true) {
 		gsm->Run();
 	} 
 	delete gsm;

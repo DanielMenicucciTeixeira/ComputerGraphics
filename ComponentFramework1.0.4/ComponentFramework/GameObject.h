@@ -20,6 +20,9 @@ public:
 	inline Shader* getShader() const { return shader; }
 	inline void setModelMatrix(const Matrix4 &modelMatrix_) { modelMatrix = modelMatrix_; }
 	inline Matrix4& getModelMatrix() { return modelMatrix; }
+
+	Vec3 GetPosition();
+	void SetTexture(Texture * TextureToSet);
 };
 
 #endif
