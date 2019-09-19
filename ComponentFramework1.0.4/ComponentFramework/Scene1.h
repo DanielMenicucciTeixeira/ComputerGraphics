@@ -15,20 +15,12 @@ class Mesh;
 class Shader;
 class Texture;
 
-struct SceneObject
-{
-	CelestialBody * gameObject = nullptr;
-	Texture * texture = nullptr;
-};
-
 class Scene1 : public Scene 
 {
 private:
 	Camera *camera;
 	std::vector<Light> LightSources;
-	std::vector<SceneObject> SceneObjectList;
-	std::vector<const char[]> TexturePaths;
-	std::vector<*untyped> Paths;
+	std::vector<GameObject*> SceneObjectList;
 	Mesh *meshPtr;
 	Shader *shaderPtr;
 

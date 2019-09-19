@@ -42,7 +42,8 @@ bool Window::OnCreate(std::string name_, int width_, int height_) {
 	return true;
 }
 
-void Window::OnDestroy() {
+void Window::OnDestroy() 
+{
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	window = nullptr;

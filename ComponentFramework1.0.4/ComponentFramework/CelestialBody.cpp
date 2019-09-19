@@ -20,10 +20,12 @@ void CelestialBody::SetRotation(float speed, Vec3 orientation)
 	RotationOrientation = orientation;
 }
 
-void CelestialBody::SetRevolution(float speed, Axis axis)
+void CelestialBody::SetRevolution(float speed, Axis axis, GameObject * gravityCenter, float radius, float elipticalProportion)
 {
-	RevolytionAngularSpeed = speed;
+	RevolutionSpeed = speed;
 	RevolutionAxis = axis;
+	GravityCenter = gravityCenter;
+	RevolutionRadius = radius;
 }
 
 void CelestialBody::SetScale(float scale)
@@ -36,6 +38,17 @@ void CelestialBody::SetGravityCenter(GameObject * gravityCenter)
 	GravityCenter = gravityCenter;
 }
 
+void CelestialBody::SetRotationTilt(float angle, Vec3 orientation)
+{
+	RotationTiltAngle = angle;
+	RotationTiltOrientation = orientation;
+}
+
+void CelestialBody::addSatelite(CelestialBody * satelite)
+{
+	SateliteList.push_back(satelite);
+}
+
 float CelestialBody::GetRotationSpeed()
 {
 	return RotationSpeed;
@@ -43,25 +56,70 @@ float CelestialBody::GetRotationSpeed()
 
 void CelestialBody::Update(float deltaTime)
 {
-	rotation += RotationSpeed;
-	RevolutionAngle += RevolytionAngularSpeed;
+	/*
 
+	RotationAngle += RotationSpeed * deltaTime;
+	RevolutionAngle += RevolutionSpeed * deltaTime;
+	
 	if (GravityCenter != nullptr)
 	{
+		
 		//Need to convert the from degrees to radians for the cos and sin methods
-		float RevolutionX = (cos(RevolutionAngle * (Pi / 180)) * RevolutionRadius) + GravityCenter->GetPosition().x;
-		float RevolutionY = (sin(RevolutionAngle * (Pi / 180)) * RevolutionRadius) + GravityCenter->GetPosition().y;
+		float RevolutionX = GravityCenter->GetPosition().x + (cos(RevolutionAngle * (Pi / 180)) * RevolutionRadius);//Movemennt in the orbits X axis, in case of an elipse, this is the base radius
+		float RevolutionY = GravityCenter->GetPosition().y + (sin(RevolutionAngle * (Pi / 180)) * RevolutionRadius * ElipticalProportion);//Movement in the orbits Y axis, in case of an elipse, this radius is a multiple of the X angle
 
-		setModelMatrix(MMath::scale(Scale) * MMath::rotate(-90, Vec3(1.0, 0.0, 0.0)) * MMath::rotate(rotation, RotationOrientation)* RevolutionTranslation(RevolutionAxis, RevolutionX, RevolutionY));
+		Position = Vec3
+		(
+			RevolutionTranslation(RevolutionAxis, RevolutionX, RevolutionY)[13],
+			RevolutionTranslation(RevolutionAxis, RevolutionX, RevolutionY)[14],
+			RevolutionTranslation(RevolutionAxis, RevolutionX, RevolutionY)[15]
+		);
+		
+		setModelMatrix//The order of the following matrix multiplications is not arbitrary and should not be changed
+		(
+			  MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix model's base rotation if necessery, to align it to cartesian volume
+			* RevolutionTranslation(RevolutionAxis, RevolutionX, RevolutionY) //Place model in correct position
+		    * MMath::rotate(RotationAngle, RotationOrientation)
+			* MMath::rotate(RotationTiltAngle, RotationTiltOrientation)//Afeter rotation is done, apply disired tilt angle
+			* MMath::scale(Scale)//Scale the model to desired size
+		);
 	}
 	else
 	{
-		setModelMatrix(MMath::scale(Scale) * MMath::rotate(-90, Vec3(1.0, 0.0, 0.0)) * MMath::rotate(rotation, RotationOrientation));
+		Position = Vec3(1.0f, 0.0f, 1.0f);
+
+		//Simillar to the equation above, same restrictions to order of multiplication, but this does not include translation
+		setModelMatrix
+		(
+			  MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix models base rotation if necessery, to align it to cartesian volume
+			* MMath::rotate(RotationAngle, RotationOrientation)//Fix models base rotation if necessery, to align it to cartesian volume
+			* MMath::rotate(RotationTiltAngle, RotationTiltOrientation)//Afeter rotation is done, apply disired tilt angle
+			* MMath::scale(Scale)//Scale the model to desired size
+		);
+
 	}
+	*/
+	//Movemennt in the orbits X axis, in case of an elipse, this is the base radius
+	float RevolutionX = (cos(RevolutionSpeed * deltaTime * (Pi / 180)) * RevolutionRadius);
+	//Movement in the orbits Y axis, in case of an elipse, this radius is a multiple of the X angle
+	float RevolutionY = (sin(RevolutionSpeed * deltaTime * (Pi / 180)) * RevolutionRadius * ElipticalProportion);
 	
+	addTranslation(Vec3(RevolutionX, RevolutionY, 0.0f));
+	for (int i = 0; i < SateliteList.size(); i++)
+	{
+		SateliteList[i]->addTranslation(Vec3(RevolutionX, RevolutionY, 0.0f));
+	}
+
+	addRotatation(RotationSpeed * deltaTime, RotationOrientation);
+	
+	modelMatrix = BaseMatrix * PositionMatrix * RotationMatrix;
 }
 
 CelestialBody::CelestialBody(Mesh *mesh_, Shader *shader_, Texture *texture_):GameObject(mesh_,shader_, texture_)
+{
+}
+
+CelestialBody::CelestialBody(Mesh * mesh_, Shader * shader_, const char texturePath[]) : GameObject(mesh_, shader_, texturePath)
 {
 }
 
