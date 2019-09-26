@@ -72,6 +72,9 @@
     <ClCompile Include="Scene2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CubeMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h">
@@ -143,6 +146,9 @@
     <ClInclude Include="Scene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CubeMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="phongFrag.glsl">
@@ -155,6 +161,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="textureVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="cubeFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="cubeVert.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

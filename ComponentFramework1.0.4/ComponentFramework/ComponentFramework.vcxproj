@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CelestialBody.cpp" />
+    <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameSceneManager.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CelestialBody.h" />
+    <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameSceneManager.h" />
@@ -168,6 +170,8 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cubeFrag.glsl" />
+    <None Include="cubeVert.glsl" />
     <None Include="phongFrag.glsl" />
     <None Include="phongVert.glsl" />
     <None Include="textureFrag.glsl" />

@@ -11,6 +11,7 @@
 #include "Texture.h"
 #include "MMath.h"
 #include "CelestialBody.h"
+#include "CubeMap.h"
 
 
 
@@ -23,7 +24,7 @@ Scene1::~Scene1() {}
 bool Scene1::OnCreate() 
 {
 	camera = new Camera();
-	ModelScale = 0.6f;
+	ModelScale = 1.0f;
 
 	if (ObjLoader::loadOBJ("sphere.obj") == false) 
 	{
@@ -41,8 +42,8 @@ bool Scene1::OnCreate()
 	CelestialBody * Moon;
 	Moon = new CelestialBody(meshPtr, shaderPtr, "moon.jpg");
 	Moon->SetRotation(Earth->GetRotationSpeed() / 27.0f, Vec3(0.0f, 0.0f, 1.0f));
-	Moon->SetRevolution((Earth->GetRotationSpeed() / 27.0f), Z, Earth, 10*ModelScale);
-	Moon->SetScale(ModelScale*0.5f);
+	Moon->SetRevolution((Earth->GetRotationSpeed() / 27.0f), Z, Earth, 6*ModelScale);
+	Moon->SetScale(ModelScale*0.25f);
 	SceneObjectList.push_back(Moon);
 
 	for(int i = 0; i < SceneObjectList.size(); i++)
@@ -53,8 +54,11 @@ bool Scene1::OnCreate()
 			return false;
 		}
 	}
-	LightSources.push_back(Light(Vec4(1.0, 1.0, 1.0, 0.0), 1.0f, Vec3(-100.0f, 0.0f, 0.0f)));
+	LightSources.push_back(Light(Vec4(1.0, 0.0, 0.0, 0.0), 1.0f, Vec3(100.0f, 0.0f, 0.0f)));
 
+	CubeMap * Skybox = new CubeMap();
+	const char * SkyboxTextures[6];
+	Skybox->LoadCube(SkyboxTextures);
 
 	return true;
 }

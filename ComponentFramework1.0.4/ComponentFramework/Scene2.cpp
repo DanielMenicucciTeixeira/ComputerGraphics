@@ -23,7 +23,8 @@ Scene2::~Scene2() {}
 bool Scene2::OnCreate()
 {
 	camera = new Camera();
-	ModelScale = 1.0f;
+	ModelScale = 0.6f;
+	CameraRotation.loadIdentity();
 
 	if (ObjLoader::loadOBJ("sphere.obj") == false)
 	{
@@ -34,14 +35,14 @@ bool Scene2::OnCreate()
 
 	CelestialBody * Sun = new CelestialBody(meshPtr, shaderPtr, "yellow.jpg");
 	Sun->SetRotation(0.0f, Vec3(0.0f, 0.0f, 1.0f));
-	Sun->SetOriginalTransform(Vec3(0.0f), -90, Vec3(1.0f, 0.0f, 0.0f), 1.0f * ModelScale * Vec3(1.0f));
+	Sun->SetScale(2.0f * ModelScale);
 	SceneObjectList.push_back(Sun);
 
 	CelestialBody * Earth = new CelestialBody(meshPtr, shaderPtr, "earthclouds.jpg");
 	Earth->SetRotation(360.0f * TimeScale, Vec3(0.0f, 0.0f, 1.0f));
-	Earth->SetRotationTilt(-23.0f);
-	Earth->SetRevolution(((Earth->GetRotationSpeed()/365.0f)  * TimeScale), Z, Sun, 1.0f * ModelScale);
-	Earth->SetOriginalTransform(Vec3(0.0f), -90, Vec3(1.0f, 0.0f, 0.0f), ModelScale * Vec3(1.0f));
+	Earth->SetRotationTilt(23.0f);
+	Earth->SetRevolution(((Earth->GetRotationSpeed()/365.0f)  * TimeScale), Z, Sun, 9.0f * ModelScale, 0.5f);
+	Earth->SetScale(1.0f * ModelScale);
 	//Sun->addSatelite(Earth);
 	SceneObjectList.push_back(Earth);
 
@@ -49,8 +50,8 @@ bool Scene2::OnCreate()
 	Moon = new CelestialBody(meshPtr, shaderPtr, "moon.jpg");
 	Moon->SetRotation((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Vec3(0.0f, 0.0f, 1.0f));
 	Moon->SetRevolution((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Z, Earth, 2.0f * ModelScale);
-	Moon->SetOriginalTransform(Vec3(0.0f), -90, Vec3(1.0f, 0.0f, 0.0f), 0.7 * ModelScale * Vec3(1.0f));
-	Earth->addSatelite(Moon);
+	Moon->SetScale(0.25f * ModelScale);
+	//Earth->addSatelite(Moon);
 	SceneObjectList.push_back(Moon);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
@@ -61,7 +62,7 @@ bool Scene2::OnCreate()
 			return false;
 		}
 	}
-	LightSources.push_back(Light(Vec4(1.0, 1.0, 1.0, 0.0), 1.0f, Sun->GetPosition()));
+	LightSources.push_back(Light(Vec4(1.0, 1.0, 1.0, 0.0), 1.0f, Vec3(13.0f, 0.0f, 0.0f)));
 
 
 	return true;
@@ -79,6 +80,19 @@ void Scene2::OnDestroy()
 }
 
 void Scene2::HandleEvents(const SDL_Event &sdlEvent) {}
+
+void Scene2::ToogleCamera()
+{
+	if (!CameraState)
+	{
+		CameraRotation = MMath::rotate(90, Vec3(1.0f, 0.0f, 0.0f));
+
+		printf("Hello There\n");
+	}
+	else CameraRotation.loadIdentity();
+
+	CameraState = !CameraState;
+}
 
 void Scene2::Update(const float deltaTime_)
 {
@@ -102,7 +116,7 @@ void Scene2::Render() const
 	{
 		/// These pass the matricies and the light position to the GPU
 		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, camera->getViewMatrix());
+		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * CameraRotation));
 		glUniform1i(SceneObjectList[i]->getShader()->getUniformID("NumberOfLights"), LightSources.size());
 	}
 

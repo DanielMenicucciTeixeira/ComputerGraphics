@@ -17,7 +17,7 @@ public:
 	GameSceneManager();
 	~GameSceneManager();
 	void Run();
-	bool Init(std::string name_, int width_, int height_, SCENE_NUMBER sceneToRun);
+	bool Init(std::string name_, int width_, int height_, SCENE_NUMBER sceneToRun, std::string SkyboxTextures[6] = NULL);
 	void HandleEvents();
 	
 	

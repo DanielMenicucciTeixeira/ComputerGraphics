@@ -1,9 +1,8 @@
-﻿  Scene2.cpp
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(52): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(56): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(74): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(85): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(101): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(110): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(118): warning C4018: '<': signed/unsigned mismatch
+﻿  Scene1.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(49): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(70): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(81): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(97): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(106): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(114): warning C4018: '<': signed/unsigned mismatch
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

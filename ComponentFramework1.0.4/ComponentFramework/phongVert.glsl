@@ -19,7 +19,8 @@ uniform float lightIntensity[10];
 
 
 
-void main() {
+void main() 
+{
 	vertNormal = normalMatrix * vNormal.xyz; // Rotate the normal to the correct orientation 
 	vec3 vertPos = vec3(viewMatrix * modelMatrix * vVertex); // Creates the vertex position (-eyeDir)
 

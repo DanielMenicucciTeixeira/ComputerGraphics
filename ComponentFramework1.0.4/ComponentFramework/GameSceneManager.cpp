@@ -2,6 +2,7 @@
 #include "GameSceneManager.h"
 #include "Timer.h"
 #include "Window.h"
+#include "CubeMap.h"
 #include "Scene0.h"
 #include "Scene1.h"
 #include "Scene2.h"
@@ -30,7 +31,8 @@ GameSceneManager::~GameSceneManager() {
 
 }
 
-bool GameSceneManager::Init(std::string name_, int width_, int height_, SCENE_NUMBER sceneToRun) {
+bool GameSceneManager::Init(std::string name_, int width_, int height_, SCENE_NUMBER sceneToRun, std::string SkyboxTextures[6])
+{
 
 	window = new Window();
 	if (!window->OnCreate(name_, width_, height_)) {
@@ -66,10 +68,19 @@ void GameSceneManager::Run() {
 	}
 }
 
-void GameSceneManager::HandleEvents() {
+void GameSceneManager::HandleEvents() 
+{
 	SDL_Event sdlEvent;
-	while (SDL_PollEvent(&sdlEvent)) {
-		switch (sdlEvent.type) {
+	while (SDL_PollEvent(&sdlEvent))
+	{
+		switch (sdlEvent.type)
+		{
+		case SDL_EventType::SDL_KEYDOWN:
+			if (sdlEvent.key.keysym.sym == SDLK_SPACE)
+			{
+				dynamic_cast<Scene2*>(currentScene)->ToogleCamera();
+			}
+			break;
 		case SDL_EventType::SDL_QUIT:
 			isRunning = false;
 			return;

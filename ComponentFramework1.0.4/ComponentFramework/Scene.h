@@ -1,7 +1,12 @@
 #ifndef SCENE_H
 #define SCENE_H
 union SDL_Event;
-class Scene {
+class Scene 
+{
+protected:
+
+	float Pi = 22 / 7;
+
 public:
 	explicit Scene() {}
 	virtual ~Scene() {}
@@ -11,10 +16,6 @@ public:
 	virtual void Update(const float deltaTime_) = 0;
 	virtual void Render() const  = 0 ;
 	virtual void HandleEvents(const SDL_Event &sdlEvent) = 0;
-
-protected:
-
-	float Pi = 22 / 7;
 	
 };
 #endif

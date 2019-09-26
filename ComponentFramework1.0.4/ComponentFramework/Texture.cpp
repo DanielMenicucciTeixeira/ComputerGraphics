@@ -4,7 +4,8 @@
 
 Texture::Texture(){}
 
-bool Texture::LoadImage(const char* filename) {
+bool Texture::LoadImage(const char* filename) 
+{
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	SDL_Surface *textureSurface = IMG_Load(filename);
@@ -22,6 +23,7 @@ bool Texture::LoadImage(const char* filename) {
 }
 
 
-Texture::~Texture(){
+Texture::~Texture()
+{
 	glDeleteTextures(1, &textureID);
 }

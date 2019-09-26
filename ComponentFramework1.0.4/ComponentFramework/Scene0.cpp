@@ -16,7 +16,8 @@ Scene0::Scene0():
 
 Scene0::~Scene0() {}
 
-bool Scene0::OnCreate() {
+bool Scene0::OnCreate() 
+{
 	camera = new Camera();
 
 	if (ObjLoader::loadOBJ("skull.obj") == false) {

@@ -99,20 +99,38 @@ void CelestialBody::Update(float deltaTime)
 
 	}
 	*/
-	//Movemennt in the orbits X axis, in case of an elipse, this is the base radius
-	float RevolutionX = (cos(RevolutionSpeed * deltaTime * (Pi / 180)) * RevolutionRadius);
-	//Movement in the orbits Y axis, in case of an elipse, this radius is a multiple of the X angle
-	float RevolutionY = (sin(RevolutionSpeed * deltaTime * (Pi / 180)) * RevolutionRadius * ElipticalProportion);
-	
-	addTranslation(Vec3(RevolutionX, RevolutionY, 0.0f));
-	for (int i = 0; i < SateliteList.size(); i++)
-	{
-		SateliteList[i]->addTranslation(Vec3(RevolutionX, RevolutionY, 0.0f));
-	}
+	RotationAngle += RotationSpeed * deltaTime;
+	RevolutionAngle += RevolutionSpeed * deltaTime;
 
-	addRotatation(RotationSpeed * deltaTime, RotationOrientation);
-	
-	modelMatrix = BaseMatrix * PositionMatrix * RotationMatrix;
+	//Movemennt in the orbits X axis, in case of an elipse, this is the base radius
+	Position.x = (cos(RevolutionAngle * (Pi / 180)) * RevolutionRadius);
+	//Movement in the orbits Y axis, in case of an elipse, this radius is a multiple of the X angle
+	Position.y = (sin(RevolutionAngle* (Pi / 180)) * RevolutionRadius * ElipticalProportion);
+	if (GravityCenter != nullptr)
+	{
+		Position.x += GravityCenter->Position.x;
+		Position.y += GravityCenter->Position.y;
+		Position.z = GravityCenter->Position.z;
+
+		setModelMatrix//The order of the following matrix multiplications is not arbitrary and should not be changed
+		(
+			  MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix model's base rotation if necessery, to align it to cartesian volume
+			* MMath::translate(Position) //Place model in correct position
+			* MMath::rotate(RotationAngle, RotationOrientation)//Rotate the model the disired amount
+			* MMath::rotate(RotationTiltAngle, RotationTiltOrientation)//Afeter rotation is done, apply disired tilt angle
+			* MMath::scale(Scale)//Scale the model to desired size
+		);
+	}
+	else
+	{
+		setModelMatrix//The order of the following matrix multiplications is not arbitrary and should not be changed
+		(
+			  MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix model's base rotation if necessery, to align it to cartesian volume
+			* MMath::rotate(RotationAngle, RotationOrientation)//Rotate the model the disired amount
+			* MMath::rotate(RotationTiltAngle, RotationTiltOrientation)//Afeter rotation is done, apply disired tilt angle
+			* MMath::scale(Scale)//Scale the model to desired size
+		);
+	}
 }
 
 CelestialBody::CelestialBody(Mesh *mesh_, Shader *shader_, Texture *texture_):GameObject(mesh_,shader_, texture_)
