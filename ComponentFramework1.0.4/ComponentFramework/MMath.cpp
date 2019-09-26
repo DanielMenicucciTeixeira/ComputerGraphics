@@ -255,3 +255,9 @@ Matrix4 MMath::inverse(const Matrix4 &m) {
 		}
 		return inverseM;
 }
+
+Matrix4 MATH::MMath::RemoveTranslation(Matrix4 matrix)
+{
+	matrix[3] = matrix[7] = matrix[11] = matrix[12] = matrix[13] = matrix[14] = matrix[15] = 0;
+	return matrix;
+}

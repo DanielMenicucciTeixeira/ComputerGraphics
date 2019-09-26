@@ -28,6 +28,8 @@ namespace  MATH {
 		static Matrix4 lookAt(const Vec3& eye, const Vec3& at, const Vec3& up);					
 		static Matrix4 transpose(const Matrix4 &m);
 		static Matrix4 inverse(const Matrix4 &m);
+
+		static Matrix4 RemoveTranslation(Matrix4 matrix);
 	};
 
 }

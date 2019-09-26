@@ -83,7 +83,8 @@ void GameObject::Render() const {
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);
 	glUniformMatrix3fv(normalMatrixID, 1, GL_FALSE, normalMatrix);
-	if (texture) {
+	if (texture) 
+	{
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 	}
 

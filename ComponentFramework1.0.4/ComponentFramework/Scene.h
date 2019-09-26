@@ -1,11 +1,16 @@
 #ifndef SCENE_H
 #define SCENE_H
+
 union SDL_Event;
-class Scene 
+class CubeMap;
+
+class Scene
 {
 protected:
 
 	float Pi = 22 / 7;
+	CubeMap* Skybox = nullptr;
+	
 
 public:
 	explicit Scene() {}
