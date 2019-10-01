@@ -2,6 +2,8 @@
 #include <SDL_image.h>
 #include "ObjLoader.h"
 #include "Mesh.h"
+#include "Camera.h"
+#include "MMath.h"
 
 
 CubeMap::CubeMap()
@@ -19,12 +21,13 @@ CubeMap::CubeMap(std::vector<const char*> cubeTextures, Shader* cubeShader)
 	CubeShader = cubeShader;
 	LoadCube(cubeTextures);
 
-	if (ObjLoader::loadOBJ("cube.obj") == false)
+	/*if (ObjLoader::loadOBJ("cube.obj") == false)
 	{
 		printf("Failed to load cube object for CubeMap!");
 		return;
 	}
-	CubeMesh = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
+	CubeMesh = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);*/
+	SetUp();
 }
 
 bool CubeMap::LoadCube(std::vector<const char*>  cubeTextures)
@@ -109,7 +112,33 @@ CubeMap::~CubeMap()
 }
 
 
-void CubeMap::Render()
+void CubeMap::SetUp()
 {
+	unsigned int VertexID = 0;
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(VertexID);
+	glVertexAttribPointer(VertexID, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+}
+
+void CubeMap::Render(Camera * camera)
+{
+	glDepthMask(GL_FALSE);
+	glUseProgram(CubeShader->getProgram());
+	glUniformMatrix4fv(CubeShader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
+	glUniformMatrix4fv(CubeShader->getUniformID("viewMatrix"), 1, GL_FALSE, camera->getViewMatrix());
+	glBindVertexArray(vao);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	glDepthMask(GL_TRUE);
 }
 

@@ -57,18 +57,12 @@ bool Scene1::OnCreate()
 	LightSources.push_back(Light(Vec4(1.0, 0.0, 0.0, 0.0), 1.0f, Vec3(100.0f, 0.0f, 0.0f)));
 
 	std::vector<const char*> SkyboxTextures;
-	/*SkyboxTextures.push_back("CN_Tower\\posx.jpg");
+	SkyboxTextures.push_back("CN_Tower\\posx.jpg");
 	SkyboxTextures.push_back("CN_Tower\\negx.jpg");
 	SkyboxTextures.push_back("CN_Tower\\posy.jpg");
 	SkyboxTextures.push_back("CN_Tower\\negy.jpg");
 	SkyboxTextures.push_back("CN_Tower\\posz.jpg");
-	SkyboxTextures.push_back("CN_Tower\\negz.jpg");*/
-	SkyboxTextures.push_back("posx.jpg");
-	SkyboxTextures.push_back("negx.jpg");
-	SkyboxTextures.push_back("posy.jpg");
-	SkyboxTextures.push_back("negy.jpg");
-	SkyboxTextures.push_back("posz.jpg");
-	SkyboxTextures.push_back("negz.jpg");
+	SkyboxTextures.push_back("CN_Tower\\negz.jpg");
 	
 	Skybox = new CubeMap(SkyboxTextures);
 
@@ -103,16 +97,18 @@ void Scene1::Render() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	///Draw the Skybox
+	glDisable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
 	GLuint program = Skybox->GetShader()->getProgram();
 	glUseProgram(program);
 	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
 	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, camera->getViewMatrix());
-	//glUniform3fv(Skybox->GetShader()->getUniformID("TexturePos"), 1, );
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Skybox->getTextureID());
 	Skybox->CubeMesh->Render();
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 	/// Draw your scene here
+	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	program = SceneObjectList[0]->getShader()->getProgram();
 	glUseProgram(program);

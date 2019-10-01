@@ -5,6 +5,8 @@
 #include <vector>
 #include "Shader.h"
 
+class Camera;
+
 class CubeMap
 {
 private:
@@ -71,7 +73,8 @@ public:
 
 	Shader* GetShader() { return CubeShader; }
 	inline float* GetSkyboxVertices() { return CubeVertices; }
-	void Render();
+	void SetUp();
+	void Render(Camera * camera);
 };
 #endif
 
