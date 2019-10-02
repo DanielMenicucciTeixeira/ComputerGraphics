@@ -1,2 +1,29 @@
-﻿  CubeMap.cpp
+﻿  GameSceneManager.cpp
+  Scene.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.cpp(13): warning C4150: deletion of pointer to incomplete type 'CubeMap'; no destructor called
+  d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.h(5): note: see declaration of 'CubeMap'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.cpp(68): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.cpp(69): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.cpp(74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene.cpp(77): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Scene0.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(44): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(45): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(46): warning C4305: 'argument': truncation from 'double' to 'float'
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene0.cpp(86): warning C4018: '<': signed/unsigned mismatch
+  Scene1.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(51): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(78): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(93): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(122): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(131): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene1.cpp(139): warning C4018: '<': signed/unsigned mismatch
+  Scene2.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(69): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(97): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(113): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(149): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(158): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(166): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

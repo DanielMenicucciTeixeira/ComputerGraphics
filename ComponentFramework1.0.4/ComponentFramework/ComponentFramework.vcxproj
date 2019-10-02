@@ -134,12 +134,14 @@
     <ClCompile Include="MMath.cpp" />
     <ClCompile Include="Moon.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene0.cpp" />
     <ClCompile Include="Scene1.cpp" />
     <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TrackBall.cpp" />
     <ClCompile Include="VMath.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -165,6 +167,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TrackBall.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VMath.h" />
     <ClInclude Include="Window.h" />

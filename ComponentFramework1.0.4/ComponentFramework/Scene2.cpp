@@ -19,13 +19,16 @@ Scene2::Scene2() :
 	camera(nullptr), meshPtr(nullptr), shaderPtr(nullptr) {}
 
 
-Scene2::~Scene2() {}
+Scene2::~Scene2()
+{
+	Scene::~Scene();
+}
 
 bool Scene2::OnCreate()
 {
 	camera = new Camera();
+	MainCamera = camera;
 	ModelScale = 0.6f;
-	CameraRotation.loadIdentity();
 
 	if (ObjLoader::loadOBJ("sphere.obj") == false)
 	{
@@ -44,7 +47,6 @@ bool Scene2::OnCreate()
 	Earth->SetRotationTilt(23.0f);
 	Earth->SetRevolution(((Earth->GetRotationSpeed()/365.0f)  * TimeScale), Z, Sun, 9.0f * ModelScale, 0.5f);
 	Earth->SetScale(1.0f * ModelScale);
-	//Sun->addSatelite(Earth);
 	SceneObjectList.push_back(Earth);
 
 	CelestialBody * Moon;
@@ -52,8 +54,17 @@ bool Scene2::OnCreate()
 	Moon->SetRotation((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Vec3(0.0f, 0.0f, 1.0f));
 	Moon->SetRevolution((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Z, Earth, 2.0f * ModelScale);
 	Moon->SetScale(0.25f * ModelScale);
-	//Earth->addSatelite(Moon);
 	SceneObjectList.push_back(Moon);
+
+	if (ObjLoader::loadOBJ("sphere.obj") == false)
+	{
+		return false;
+	}
+	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
+	shaderPtr = new Shader("textureVert.glsl", "textureFrag.glsl");
+
+	GameObject * ReferenceCube = new GameObject(meshPtr, shaderPtr, "skull_texture.jpg");
+	SceneObjectList.push_back(ReferenceCube);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
@@ -88,28 +99,25 @@ void Scene2::OnDestroy()
 		if (shaderPtr) delete shaderPtr, shaderPtr = nullptr;
 		if (SceneObjectList[i]) delete SceneObjectList[i], SceneObjectList[i] = nullptr;
 	}
+
+	Scene::OnDestroy();
 }
 
-void Scene2::HandleEvents(const SDL_Event &sdlEvent) {}
-
-void Scene2::ToogleCamera()
+void Scene2::HandleEvents(const SDL_Event &sdlEvent)
 {
-	if (!CameraState)
-	{
-		CameraRotation = MMath::rotate(90, Vec3(1.0f, 0.0f, 0.0f));
-
-		printf("Hello There\n");
-	}
-	else CameraRotation.loadIdentity();
-
-	CameraState = !CameraState;
+	Scene::HandleEvents(sdlEvent);
 }
 
 void Scene2::Update(const float deltaTime_)
 {
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
+		if (dynamic_cast<CelestialBody*>(SceneObjectList[i]) != nullptr)
+		{
+			dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
+		}
+		printf("%f\n",SceneObjectList[3]->getModelMatrix()[13]);
+		SceneObjectList[3]->setModelMatrix(MMath::translate(Vec3(0.0f, 4.0f, 0.0f)));
 	}
 }
 
@@ -120,28 +128,29 @@ void Scene2::Render() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	///Draw the Skybox
-	/*glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
 	GLuint program = Skybox->GetShader()->getProgram();
 	glUseProgram(program);
 	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * MMath::translate(Vec3(0)) * CameraRotation));
+	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * MMath::translate(Vec3(0))));
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Skybox->getTextureID());
 	Skybox->CubeMesh->Render();
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);*/
-	Skybox->Render(camera);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+	//Skybox->Render(camera);
 
 	/// Draw your scene here
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
-	GLuint program = SceneObjectList[0]->getShader()->getProgram();
+	//GLuint program = SceneObjectList[0]->getShader()->getProgram();
+	program = SceneObjectList[0]->getShader()->getProgram();
 	glUseProgram(program);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
 		/// These pass the matricies and the light position to the GPU
 		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * CameraRotation));
+		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
 		glUniform1i(SceneObjectList[i]->getShader()->getUniformID("NumberOfLights"), LightSources.size());
 	}
 

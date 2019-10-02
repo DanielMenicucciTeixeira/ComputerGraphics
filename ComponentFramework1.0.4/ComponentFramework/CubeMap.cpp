@@ -21,13 +21,13 @@ CubeMap::CubeMap(std::vector<const char*> cubeTextures, Shader* cubeShader)
 	CubeShader = cubeShader;
 	LoadCube(cubeTextures);
 
-	/*if (ObjLoader::loadOBJ("cube.obj") == false)
+	if (ObjLoader::loadOBJ("cube.obj") == false)
 	{
 		printf("Failed to load cube object for CubeMap!");
 		return;
 	}
-	CubeMesh = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);*/
-	SetUp();
+	CubeMesh = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
+	//SetUp();
 }
 
 bool CubeMap::LoadCube(std::vector<const char*>  cubeTextures)
@@ -121,7 +121,6 @@ void CubeMap::SetUp()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(VertexID);

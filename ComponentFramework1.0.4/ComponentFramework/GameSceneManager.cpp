@@ -75,12 +75,6 @@ void GameSceneManager::HandleEvents()
 	{
 		switch (sdlEvent.type)
 		{
-		case SDL_EventType::SDL_KEYDOWN:
-			if (sdlEvent.key.keysym.sym == SDLK_SPACE)
-			{
-				dynamic_cast<Scene2*>(currentScene)->ToogleCamera();
-			}
-			break;
 		case SDL_EventType::SDL_QUIT:
 			isRunning = false;
 			return;
@@ -117,6 +111,9 @@ Scene* GameSceneManager::BuildScene(SCENE_NUMBER scene_) {
 		if (newScene) delete newScene;
 		return nullptr;
 	}
+
+	newScene->SetWindow(window);
+
 	return newScene;
 	
 }
