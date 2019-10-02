@@ -1,8 +1,6 @@
 #include "Scene.h"
 #include <SDL.h>
 #include "Camera.h"
-#include "TrackBall.h"
-#include "Window.h"
 
 Scene::~Scene()
 {
@@ -61,23 +59,9 @@ void Scene::ToggleCamera(Camera * camera, SDL_Event key)
 
 void Scene::MoveCamera(Camera * camera, SDL_Event motion)
 {
-	Vec2 V1;
-	Vec2 V0;
+	int x = motion.motion.xrel;
+	int y = motion.motion.yrel;
 
-
-	V1.x = int(motion.motion.x);
-	V1.y = int(motion.motion.y);
-
-	V0.x = V1.x - int(motion.motion.xrel);
-	V0.y = V1.y - int(motion.motion.xrel);
-
-	TrackBall trackball = TrackBall(SceneWindow->GetHeight(), SceneWindow->GetWidth());
-	Rotation rotation = trackball.GetRotation(V0, V1);
 	//camera->Rotate(x * CameraRotationSpeed, Vec3(0.0f, 1.0f, 0.0f));
-	camera->Rotate(rotation.Value * 57.2958, rotation.Orientation);
-}
-
-void Scene::SetWindow(Window * sceneWindow)
-{
-	SceneWindow = sceneWindow;
+	//camera->Rotate(y * CameraRotationSpeed, Vec3(1.0f, 0.0f,  0.0f));
 }

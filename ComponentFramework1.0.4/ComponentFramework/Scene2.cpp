@@ -116,8 +116,6 @@ void Scene2::Update(const float deltaTime_)
 		{
 			dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
 		}
-		printf("%f\n",SceneObjectList[3]->getModelMatrix()[13]);
-		SceneObjectList[3]->setModelMatrix(MMath::translate(Vec3(0.0f, 4.0f, 0.0f)));
 	}
 }
 
@@ -133,7 +131,7 @@ void Scene2::Render() const
 	GLuint program = Skybox->GetShader()->getProgram();
 	glUseProgram(program);
 	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * MMath::translate(Vec3(0))));
+	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (MMath::lookAt(Vec3(0.0f), Vec3(0.0f), Vec3(0.0f, 0.0f, 1.0f))));
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Skybox->getTextureID());
 	Skybox->CubeMesh->Render();
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);

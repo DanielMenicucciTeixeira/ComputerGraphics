@@ -15,7 +15,6 @@ protected:
 	CubeMap* Skybox = nullptr;
 	Camera * MainCamera = nullptr;
 	float CameraRotationSpeed = 0.5f;
-	Window * SceneWindow;
 
 public:
 	explicit Scene() {}
@@ -28,6 +27,5 @@ public:
 	virtual void HandleEvents(const SDL_Event &sdlEvent);
 	virtual void ToggleCamera(Camera * camera, SDL_Event key);
 	void MoveCamera(Camera * camera, SDL_Event motion);
-	void SetWindow(Window * sceneWindow);
 };
 #endif

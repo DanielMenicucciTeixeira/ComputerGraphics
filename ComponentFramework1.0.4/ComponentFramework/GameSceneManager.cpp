@@ -112,8 +112,6 @@ Scene* GameSceneManager::BuildScene(SCENE_NUMBER scene_) {
 		return nullptr;
 	}
 
-	newScene->SetWindow(window);
-
 	return newScene;
 	
 }
