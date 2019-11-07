@@ -4,7 +4,6 @@
 #include <glew.h>
 #include <vector>
 #include "Shader.h"
-#include "MMath.h"
 
 class Camera;
 
@@ -57,7 +56,6 @@ private:
 		-1.0f, -1.0f,  1.0f,
 		 1.0f, -1.0f,  1.0f
 	};
-	float SuperVertices[108];
 	unsigned int vao;
 	unsigned int vbo;
 
@@ -70,7 +68,6 @@ public:
 	bool LoadCube(std::vector<const char*> cubeTextures);
 	inline GLuint getTextureID() const { return textureID; }
 	~CubeMap();
-	float Scale = 1.0f;
 
 	class Mesh* CubeMesh = nullptr;
 

@@ -121,6 +121,7 @@ void CubeMap::SetUp()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(VertexID);

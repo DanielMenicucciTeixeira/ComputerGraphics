@@ -111,7 +111,6 @@ Scene* GameSceneManager::BuildScene(SCENE_NUMBER scene_) {
 		if (newScene) delete newScene;
 		return nullptr;
 	}
-
 	return newScene;
 	
 }

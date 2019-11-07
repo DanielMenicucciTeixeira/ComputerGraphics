@@ -1,8 +1,19 @@
 ﻿  Scene2.cpp
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(69): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(97): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(113): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(147): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(156): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(164): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(59): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(87): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(116): warning C4244: 'argument': conversion from 'const Sint32' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(121): warning C4244: '=': conversion from 'const Sint32' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(122): warning C4244: '=': conversion from 'const Sint32' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(144): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(145): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(151): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(155): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(160): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(164): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(167): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(168): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(181): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(211): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(220): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(228): warning C4018: '<': signed/unsigned mismatch
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

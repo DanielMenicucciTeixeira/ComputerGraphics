@@ -19,9 +19,7 @@ Scene1::Scene1():
 camera(nullptr),  meshPtr(nullptr), shaderPtr(nullptr){}
 
 
-Scene1::~Scene1()
-{
-}
+Scene1::~Scene1() {}
 
 bool Scene1::OnCreate() 
 {
@@ -80,13 +78,9 @@ void Scene1::OnDestroy()
 		if (shaderPtr) delete shaderPtr, shaderPtr = nullptr;
 		if (SceneObjectList[i]) delete SceneObjectList[i], SceneObjectList[i]= nullptr;
 	}
-	Scene::OnDestroy();
 }
 
-void Scene1::HandleEvents(const SDL_Event &sdlEvent)
-{
-	Scene::HandleEvents(sdlEvent);
-}
+void Scene1::HandleEvents(const SDL_Event &sdlEvent) {}
 
 void Scene1::Update(const float deltaTime_) 
 {

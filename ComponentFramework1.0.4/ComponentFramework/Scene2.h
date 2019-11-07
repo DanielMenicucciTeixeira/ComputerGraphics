@@ -20,7 +20,6 @@ class Texture;
 class Scene2 : public Scene
 {
 	private:
-
 		Camera *camera;
 		std::vector<Light> LightSources;
 		std::vector<GameObject*> SceneObjectList;
@@ -33,6 +32,12 @@ class Scene2 : public Scene
 		float ModelScale = 1.0f;
 		float TimeScale = 1.0f;
 
+		Matrix4 CameraRotation;
+		bool CameraState = false;
+
+		bool CameraRotationFlag = false;
+		Vec2 CameraRotationZero;
+
 	public:
 		explicit Scene2();
 		virtual ~Scene2();
@@ -42,6 +47,9 @@ class Scene2 : public Scene
 		virtual void Update(const float deltaTime_) override;
 		virtual void Render() const override;
 		virtual void HandleEvents(const SDL_Event &sdlEvent) override;
+		
+		void ToggleCamera();
+		void RotateCamera(Vec2 initalRotation, float xFinal, float yFinal, float radius);
 };
 #endif
 
