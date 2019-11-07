@@ -13,6 +13,7 @@
 #include "CelestialBody.h"
 #include "CubeMap.h"
 #include "VMath.h"
+#include "Trackball.h"
 
 
 
@@ -26,7 +27,7 @@ bool Scene2::OnCreate()
 {
 	camera = new Camera();
 	ModelScale = 0.6f;
-	CameraRotation.loadIdentity();
+	SceneTrackball = new Trackball();
 
 	if (ObjLoader::loadOBJ("sphere.obj") == false)
 	{
@@ -80,51 +81,6 @@ bool Scene2::OnCreate()
 	return true;
 }
 
-void Scene2::OnDestroy()
-{
-	if (camera) delete camera, camera = nullptr;
-	if (meshPtr) delete meshPtr, meshPtr = nullptr;
-	for (int i = 0; i < SceneObjectList.size(); i++)
-	{
-		if (shaderPtr) delete shaderPtr, shaderPtr = nullptr;
-		if (SceneObjectList[i]) delete SceneObjectList[i], SceneObjectList[i] = nullptr;
-	}
-}
-
-void Scene2::HandleEvents(const SDL_Event &sdlEvent)
-{
-	switch (sdlEvent.type)
-	{
-	case SDL_EventType::SDL_KEYDOWN:
-		if (sdlEvent.key.keysym.sym == SDLK_SPACE)
-		{
-			ToggleCamera();
-		}
-		else if (sdlEvent.key.keysym.sym == SDLK_LCTRL)
-		{
-			CameraRotationFlag = true;
-		}
-		break;
-	case SDL_EventType::SDL_KEYUP:
-		if (sdlEvent.key.keysym.sym == SDLK_LCTRL)
-		{
-			CameraRotationFlag = false;
-		}
-	case SDL_EventType::SDL_MOUSEMOTION:
-		if (CameraRotationFlag)
-		{
-			RotateCamera(CameraRotationZero, sdlEvent.motion.x, sdlEvent.motion.y, 0.1f);
-		}
-		else
-		{
-			
-			CameraRotationZero.x = sdlEvent.motion.x;
-			CameraRotationZero.y = sdlEvent.motion.y;
-		}
-		break;
-	}
-}
-
 void Scene2::ToggleCamera()
 {
 	if (!CameraState)
@@ -176,12 +132,45 @@ void Scene2::RotateCamera(Vec2 initialRotation, float xFinal, float yFinal, floa
 	camera->SetRotation(cos(Angle / 2.0f) * 57.2958f, sin(Angle / 2.0f) * Normal);
 }
 
+void Scene2::OnDestroy()
+{
+	if (camera) delete camera, camera = nullptr;
+	if (meshPtr) delete meshPtr, meshPtr = nullptr;
+	for (int i = 0; i < SceneObjectList.size(); i++)
+	{
+		if (shaderPtr) delete shaderPtr, shaderPtr = nullptr;
+		if (SceneObjectList[i]) delete SceneObjectList[i], SceneObjectList[i] = nullptr;
+	}
+}
+
+void Scene2::HandleEvents(const SDL_Event &sdlEvent)
+{
+	switch (sdlEvent.type)
+	{
+	case SDL_EventType::SDL_KEYDOWN:
+		if (sdlEvent.key.keysym.sym == SDLK_SPACE)
+		{
+			ToggleCamera();
+		}
+		break;
+	}
+
+	SceneTrackball->HandleEvents(sdlEvent);
+}
+
 void Scene2::Update(const float deltaTime_)
 {
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
 		dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
 	}
+
+	if (SceneTrackball->IsTrackballTurning() && SceneTrackball->HasMoved)
+	{
+		camera->SetRotation(SceneTrackball->GetRotationMatrix() * camera->getRotation());
+	}
+
+	SceneTrackball->HasMoved = false;
 }
 
 void Scene2::Render() const
@@ -212,7 +201,7 @@ void Scene2::Render() const
 	{
 		/// These pass the matricies and the light position to the GPU
 		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix() * CameraRotation));
+		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
 		glUniform1i(SceneObjectList[i]->getShader()->getUniformID("NumberOfLights"), LightSources.size());
 	}
 

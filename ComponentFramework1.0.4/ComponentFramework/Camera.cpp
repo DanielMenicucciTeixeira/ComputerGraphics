@@ -30,3 +30,8 @@ void Camera::SetRotation(float angle, Vec3 orientation)
 {
 	Rotation = MMath::rotate(angle, orientation);
 }
+
+void Camera::SetRotation(Matrix4 rotation)
+{
+	Rotation = rotation;
+}

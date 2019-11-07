@@ -16,6 +16,7 @@ class CelestialBody;
 class Mesh;
 class Shader;
 class Texture;
+class Trackball;
 
 class Scene2 : public Scene
 {
@@ -32,11 +33,13 @@ class Scene2 : public Scene
 		float ModelScale = 1.0f;
 		float TimeScale = 1.0f;
 
-		Matrix4 CameraRotation;
+		//Matrix4 CameraRotation;
 		bool CameraState = false;
 
-		bool CameraRotationFlag = false;
-		Vec2 CameraRotationZero;
+		//bool CameraRotationFlag = false;
+		//Vec2 CameraRotationZero;
+
+		Trackball * SceneTrackball = nullptr;
 
 	public:
 		explicit Scene2();

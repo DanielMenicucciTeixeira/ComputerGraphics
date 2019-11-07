@@ -19,6 +19,7 @@ public:
 	void createView(Vec3 pos, Vec3 at, Vec3 up);
 	void createView(Vec3 pos, float angle, Vec3 orientation);
 	void SetRotation(float angle, Vec3 orientation);
+	void SetRotation(Matrix4 rotation);
 	Camera();
 	~Camera();
 };
