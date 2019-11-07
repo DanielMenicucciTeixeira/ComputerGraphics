@@ -9,7 +9,6 @@ out vec3 lightDir[11];
 out vec3 vertDir; 
 out vec2 uvCoords;
 out vec4 Colour[10];
-out float Intensity[10];
 
 uniform int NumberOfLights;
 uniform mat4 projectionMatrix;
@@ -18,38 +17,20 @@ uniform mat4 modelMatrix;
 uniform mat3 normalMatrix;
 uniform vec3 lightPos[10];
 uniform vec4 lightColour[10];
-uniform float lightIntensity[10];
 
 void main() 
 {
 	uvCoords = texCoords;
+	Colour = lightColour;
 	vertNormal = normalMatrix * vNormal.xyz; // Rotate the normal to the correct orientation 
 	vec3 vertPos = vec3(viewMatrix * modelMatrix * vVertex); // Creates the vertex position (-eyeDir)
 	for(int i = 0; i < NumberOfLights; i ++)
 	{
-		lightDir[i] = normalize(lightPos[i] +  -vertPos); // Create the light direction 	
+		lightDir[i] = normalize(lightPos[i] +  -vertPos); // Create the light direction
 	}
 	
 	//I use the last variable of the lightDir array to pass the number of light sources to the FragShader because I cannot pass it through an "out int"
 	lightDir[10] = vec3(NumberOfLights, 0.0f, 0.0f);
-	vertDir = normalize(vertPos);
-	gl_Position =  projectionMatrix * viewMatrix * modelMatrix * vVertex; 
-	
-	 /*
-	vertNormal = normalMatrix * vNormal.xyz; // Rotate the normal to the correct orientation 
-	vec3 vertPos = vec3(viewMatrix * modelMatrix * vVertex); // Creates the vertex position (-eyeDir)
-
-	for(int i = 0; i < NumberOfLights; i++)
-	{
-		lightDir[i] = normalize(lightPos[i] +  -vertPos); // Create the light direction for each light source
-	}
-
-	Colour = lightColour;
-	Intensity = lightIntensity;
-	*/
-	
-	//I use the last variable of the lightDir array to pass the number of light sources to the FragShader because I cannot pass it through an "out int"
-	lightDir[10] = vec3 (NumberOfLights, 0.0, 0.0);//TODO pass the number of lights through it's own variable
 	vertDir = normalize(vertPos);
 	gl_Position =  projectionMatrix * viewMatrix * modelMatrix * vVertex; 
 }

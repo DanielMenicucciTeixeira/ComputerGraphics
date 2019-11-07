@@ -27,7 +27,6 @@ CubeMap::CubeMap(std::vector<const char*> cubeTextures, Shader* cubeShader)
 		return;
 	}
 	CubeMesh = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
-	//SetUp();
 }
 
 bool CubeMap::LoadCube(std::vector<const char*>  cubeTextures)
@@ -112,33 +111,16 @@ CubeMap::~CubeMap()
 }
 
 
-void CubeMap::SetUp()
-{
-	unsigned int VertexID = 0;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(VertexID);
-	glVertexAttribPointer(VertexID, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-}
-
 void CubeMap::Render(Camera * camera)
 {
+	glDisable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
-	glUseProgram(CubeShader->getProgram());
+	GLuint program = CubeShader->getProgram();
+	glUseProgram(program);
 	glUniformMatrix4fv(CubeShader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-	glUniformMatrix4fv(CubeShader->getUniformID("viewMatrix"), 1, GL_FALSE, camera->getViewMatrix());
-	glBindVertexArray(vao);
+	glUniformMatrix4fv(CubeShader->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getRotation()));
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
+	CubeMesh->Render();
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	glDepthMask(GL_TRUE);
 }
 

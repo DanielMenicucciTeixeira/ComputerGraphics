@@ -1,3 +1,7 @@
-﻿  Trackball.cpp
-d:\humber\computergraphics\componentframework1.0.4\componentframework\trackball.cpp(89): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  Scene2.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(61): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(104): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(128): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(156): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(166): warning C4018: '<': signed/unsigned mismatch
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

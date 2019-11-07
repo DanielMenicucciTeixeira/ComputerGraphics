@@ -5,7 +5,13 @@
 #include "MMath.h"
 #include "Debug.h"
 
-GameObject::GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_): 
+GameObject::GameObject(Vec3 position, Shader * _shader)
+{
+	Position = position;
+	shader = _shader;
+}
+
+GameObject::GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_):
 	mesh(nullptr), shader(nullptr), texture(nullptr) {
 	
 	mesh = mesh_;

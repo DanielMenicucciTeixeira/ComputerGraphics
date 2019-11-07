@@ -6,7 +6,7 @@ using namespace MATH;
 class GameObject
 {
 	
-private:
+protected:
 
 	GLuint modelMatrixID;
 	GLuint normalMatrixID;
@@ -22,11 +22,12 @@ protected:
 	Matrix4 RotationMatrix;
 
 public:
+	GameObject(Vec3 position, Shader * _shader);
 	GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_);
 	GameObject(Mesh *mesh_, Shader *shader_, const char texturePath[]);
 
 	~GameObject();
-	void Render() const;
+	virtual void Render() const;
 	virtual void Update(float deltaTime_);
 	inline Shader* getShader() const { return shader; }
 	inline void setModelMatrix(const Matrix4 &modelMatrix_) { modelMatrix = modelMatrix_; }

@@ -41,9 +41,9 @@ bool Scene0::OnCreate()
 	}
 
 	//Creating each light and setting it's position
-	LightSources.push_back(Light(Vec4(0.6, 0.0, 0.9, 0.0), 1.0f, Vec3(5.0, 5.0, 0.0)));
-	LightSources.push_back(Light(Vec4(1.0, 0.6, 0.0, 0.0), 1.0f, Vec3(-5.0, 5.0, 0.0)));
-	LightSources.push_back(Light(Vec4(0.8, 0.0, 0.6, 0.0), 1.0f, Vec3(0.0, -5.0, 0.0)));
+	LightSources.push_back(Light(Vec4(0.6, 0.0, 0.9, 0.0), 1.0f, Vec3(5.0, 5.0, 0.0), shaderPtr));
+	LightSources.push_back(Light(Vec4(1.0, 0.6, 0.0, 0.0), 1.0f, Vec3(-5.0, 5.0, 0.0), shaderPtr));
+	LightSources.push_back(Light(Vec4(0.8, 0.0, 0.6, 0.0), 1.0f, Vec3(0.0, -5.0, 0.0), shaderPtr));
 
 
 	return true;
@@ -86,9 +86,9 @@ void Scene0::Render() const {
 	for (int i = 0; i < LightSources.size(); i++)
 	{
 		//each variable beyond the first is located one unit after the prior varible, just like in the array, so this just parses through them, one by one, setting the Position values
-		glUniform3fv(gameObject->getShader()->getUniformID("lightPos[0]") + i, 1, LightSources[i].Position);
-		glUniform4fv(gameObject->getShader()->getUniformID("lightColour[0]") + i,1, LightSources[i].Colour);
-		glUniform1f(gameObject->getShader()->getUniformID("lightColour[0]") + i, LightSources[i].Intensity);
+		//glUniform3fv(gameObject->getShader()->getUniformID("lightPos[0]") + i, 1, LightSources[i].Position);
+		//glUniform4fv(gameObject->getShader()->getUniformID("lightColour[0]") + i,1, LightSources[i].Colour);
+		//glUniform1f(gameObject->getShader()->getUniformID("lightColour[0]") + i, LightSources[i].Intensity);
 	}
 
 	gameObject->Render();

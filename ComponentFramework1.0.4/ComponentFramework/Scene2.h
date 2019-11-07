@@ -2,11 +2,7 @@
 #define SCENE2_H
 
 #include "Scene.h"
-#include "Vector.h"
-#include "Light.h"
-#include <string>
 #include <vector>
-#include <SDL_ttf.h>
 
 /// Forward declarations 
 union SDL_Event;
@@ -17,12 +13,13 @@ class Mesh;
 class Shader;
 class Texture;
 class Trackball;
+class Light;
 
 class Scene2 : public Scene
 {
 	private:
 		Camera *camera;
-		std::vector<Light> LightSources;
+		std::vector<Light*> LightSources;
 		std::vector<GameObject*> SceneObjectList;
 		Mesh *meshPtr;
 		Shader *shaderPtr;
@@ -33,11 +30,7 @@ class Scene2 : public Scene
 		float ModelScale = 1.0f;
 		float TimeScale = 1.0f;
 
-		//Matrix4 CameraRotation;
 		bool CameraState = false;
-
-		//bool CameraRotationFlag = false;
-		//Vec2 CameraRotationZero;
 
 		Trackball * SceneTrackball = nullptr;
 
@@ -52,7 +45,6 @@ class Scene2 : public Scene
 		virtual void HandleEvents(const SDL_Event &sdlEvent) override;
 		
 		void ToggleCamera();
-		void RotateCamera(Vec2 initalRotation, float xFinal, float yFinal, float radius);
 };
 #endif
 

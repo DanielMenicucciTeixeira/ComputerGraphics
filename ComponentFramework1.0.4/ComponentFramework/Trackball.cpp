@@ -112,7 +112,7 @@ void Trackball::OnMouseMove(int x, int y)
 	}
 	else//Rotate on both axis
 	{
-		RotationMatrix = MMath::rotate(angle, rotAxis);
+		RotationMatrix = MMath::rotate(angle, Vec3(rotAxis.x, rotAxis.y, 0.0f));// The Z axis is manually set to 0 to avoid the stanking of very small roundings over many frames
 		MouseRotation = RotationMatrix * MouseRotation;
 		/// reset for the next mousemove
 		StartPoint = EndPoint;

@@ -14,6 +14,7 @@
 #include "CubeMap.h"
 #include "VMath.h"
 #include "Trackball.h"
+#include "Light.h"
 
 
 
@@ -65,7 +66,9 @@ bool Scene2::OnCreate()
 			return false;
 		}
 	}
-	LightSources.push_back(Light(Vec4(1.0, 1.0, 1.0, 0.0), 1.0f, Vec3(13.0f, 0.0f, 0.0f)));
+
+	LightSources.push_back(new Light(Vec4(1.0, 0.5, 0.5, 1.0), 1.0f, Vec3(-2000.0f, 2000.0f, 0.0f), shaderPtr));
+	LightSources.push_back(new Light(Vec4(0.5, 0.5, 1.0, 0.0), 0.3f, Vec3(2000.0f, -2000.0f, 0.0f), shaderPtr));
 
 	std::vector<const char*> SkyboxTextures;
 	SkyboxTextures.push_back("CN_Tower\\posx.jpg");
@@ -92,45 +95,7 @@ void Scene2::ToggleCamera()
 	CameraState = !CameraState;
 }
 
-void Scene2::RotateCamera(Vec2 initialRotation, float xFinal, float yFinal, float radius)
-{
 
-	if (abs(initialRotation.x - xFinal) < 0.1f && abs(initialRotation.y - yFinal) < 0.1f) return;
-	
-	int xInitial = initialRotation.x;
-	int yInitial = initialRotation.y;
-	
-	int zInitial, zFinal;
-	
-	if ((xInitial*xInitial) + (yInitial*yInitial) < radius*radius)
-	{
-		zInitial = sqrt(1 - (xInitial*xInitial) + (yInitial*yInitial));
-	}
-	else
-	{
-		zInitial = ((radius*radius)*0.5f) / ((xInitial*xInitial) + (yInitial*yInitial));
-	}
-
-	if ((xFinal*xFinal) + (yFinal*yFinal) < radius * radius)
-	{
-		zFinal = sqrt(1 - (xFinal*xFinal) + (yFinal*yFinal));
-	}
-	else
-	{
-		zFinal = ((radius*radius)*0.5f) / ((xFinal*xFinal) + (yFinal*yFinal));
-	}
-
-	Vec3 V1 = Vec3(xInitial, yInitial, zInitial);
-	Vec3 V2 = Vec3(xFinal, yFinal, zFinal);
-	
-	V1 = VMath::normalize(V1);
-	V2 = VMath::normalize(V2);
-
-	Vec3 Normal = VMath::cross(V1, V2);
-	float Angle = acos(VMath::dot(V1, V2));
-
-	camera->SetRotation(cos(Angle / 2.0f) * 57.2958f, sin(Angle / 2.0f) * Normal);
-}
 
 void Scene2::OnDestroy()
 {
@@ -180,21 +145,12 @@ void Scene2::Render() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	///Draw the Skybox
-	glDisable(GL_DEPTH_TEST);
-	glDepthMask(GL_FALSE);
-	GLuint program = Skybox->GetShader()->getProgram();
-	glUseProgram(program);
-	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-	glUniformMatrix4fv(Skybox->GetShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getRotation()));
-	glBindTexture(GL_TEXTURE_CUBE_MAP, Skybox->getTextureID());
-	Skybox->CubeMesh->Render();
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	//Skybox->Render(camera);
+	Skybox->Render(camera);
 
 	/// Draw your scene here
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
-	program = SceneObjectList[0]->getShader()->getProgram();
+	GLuint program = SceneObjectList[0]->getShader()->getProgram();
 	glUseProgram(program);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
@@ -205,14 +161,7 @@ void Scene2::Render() const
 		glUniform1i(SceneObjectList[i]->getShader()->getUniformID("NumberOfLights"), LightSources.size());
 	}
 
-	char Location[] = "lightPos[0]";//This parameter must be passed to find the adress of the firt variable of the array.
-	for (int i = 0; i < LightSources.size(); i++)
-	{
-		//each variable beyond the first is located one unit after the prior varible, just like in the array, so this just parses through them, one by one, setting the Position values
-		glUniform3fv(SceneObjectList[0]->getShader()->getUniformID("lightPos[0]") + i, 1, LightSources[i].Position);
-		glUniform4fv(SceneObjectList[0]->getShader()->getUniformID("lightColour[0]") + i, 1, LightSources[i].Colour);
-		glUniform1f(SceneObjectList[0]->getShader()->getUniformID("lightColour[0]") + i, LightSources[i].Intensity);
-	}
+	LightSources[0]->RenderLights(LightSources);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
