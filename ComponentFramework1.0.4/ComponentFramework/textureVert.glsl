@@ -5,9 +5,9 @@ layout (location = 2) in  vec2 texCoords;
 
 
 out vec3 vertNormal;
-out vec3 lightDir[11];
 out vec3 vertDir; 
 out vec2 uvCoords;
+out vec3 lightDir[11];
 out vec4 Colour[10];
 
 uniform int NumberOfLights;

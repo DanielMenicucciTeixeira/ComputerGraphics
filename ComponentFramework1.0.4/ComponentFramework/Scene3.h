@@ -23,6 +23,7 @@ private:
 	std::vector<GameObject*> SceneObjectList;
 	Mesh *meshPtr;
 	Shader *shaderPtr;
+	Trackball * SceneTrackball = nullptr;
 
 public:
 	explicit Scene3();

@@ -3,6 +3,9 @@
 #include <glew.h>
 #include "Matrix.h"
 using namespace MATH;
+
+class CubeMap;
+
 class GameObject
 {
 	
@@ -10,6 +13,7 @@ protected:
 
 	GLuint modelMatrixID;
 	GLuint normalMatrixID;
+	//GLuint enviroMapID;
 	class Mesh *mesh;
 	class Shader *shader;
 	class Texture *texture;
@@ -21,10 +25,14 @@ protected:
 	Matrix4 PositionMatrix;
 	Matrix4 RotationMatrix;
 
+	CubeMap * EnviroMap = nullptr;
+	int reflectionCoeficientID;
+	GLfloat ReflectionCoeficient = 0.0f;
+
 public:
 	GameObject(Vec3 position, Shader * _shader);
 	GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_);
-	GameObject(Mesh *mesh_, Shader *shader_, const char texturePath[]);
+	GameObject(Mesh *mesh_, Shader *shader_, const char texturePath[], CubeMap * enviroMap = nullptr, GLfloat reflectionCoeficient = 0.0f);
 
 	~GameObject();
 	virtual void Render() const;
@@ -42,6 +50,7 @@ public:
 	Vec3 Position;
 
 	Vec3 GetPosition();
+	inline int GetReflectionCoeficient() { return ReflectionCoeficient; }
 	void SetTexture(Texture * TextureToSet);
 };
 

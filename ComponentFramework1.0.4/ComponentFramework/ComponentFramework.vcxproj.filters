@@ -184,6 +184,12 @@
     <None Include="cubeVert.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="reflectionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="reflectionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Graphics Game Engine_Log.txt">

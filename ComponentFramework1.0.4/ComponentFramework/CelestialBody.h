@@ -56,7 +56,7 @@ public:
 
 
 	CelestialBody(Mesh *mesh_, Shader *shader_, Texture *texture_);
-	CelestialBody(Mesh *mesh_, Shader *shader_, const char texturePath[]);
+	CelestialBody(Mesh *mesh_, Shader *shader_, const char texturePath[], CubeMap * enviroMap = nullptr, GLfloat reflectionCoeficient = 0.0f);
 	~CelestialBody();
 
 };

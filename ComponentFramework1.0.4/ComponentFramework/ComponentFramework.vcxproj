@@ -179,6 +179,8 @@
     <None Include="cubeVert.glsl" />
     <None Include="phongFrag.glsl" />
     <None Include="phongVert.glsl" />
+    <None Include="reflectionFrag.glsl" />
+    <None Include="reflectionVert.glsl" />
     <None Include="textureFrag.glsl" />
     <None Include="textureVert.glsl" />
   </ItemGroup>

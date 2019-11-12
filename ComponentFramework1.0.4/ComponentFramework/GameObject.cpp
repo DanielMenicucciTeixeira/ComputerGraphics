@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "MMath.h"
 #include "Debug.h"
+#include "CubeMap.h"
 
 GameObject::GameObject(Vec3 position, Shader * _shader)
 {
@@ -19,15 +20,21 @@ GameObject::GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_):
 	texture = texture_;
 	modelMatrixID = shader->getUniformID("modelMatrix");
 	normalMatrixID = shader->getUniformID("normalMatrix");
-
+	//enviroMapID = shader->getUniformID("enviroMap");
 }
 
-GameObject::GameObject(Mesh * mesh_, Shader * shader_, const char texturePath[])
+GameObject::GameObject(Mesh * mesh_, Shader * shader_, const char texturePath[], CubeMap * enviroMap, GLfloat reflectionCoeficient)
 {
 	mesh = mesh_;
 	shader = shader_;
 	modelMatrixID = shader->getUniformID("modelMatrix");
 	normalMatrixID = shader->getUniformID("normalMatrix");
+	//reflectionCoeficientID = shader->getUniformID("reflectionCoeficient");
+	//enviroMapID = shader->getUniformID("enviroMap");
+	
+	ReflectionCoeficient = reflectionCoeficient;
+
+	EnviroMap = enviroMap;
 
 	bool BugFound = false;
 
@@ -89,9 +96,14 @@ void GameObject::Render() const {
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);
 	glUniformMatrix3fv(normalMatrixID, 1, GL_FALSE, normalMatrix);
+	//glUniform1f(reflectionCoeficientID, ReflectionCoeficient);
 	if (texture) 
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
+	}
+	if (EnviroMap != nullptr)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, EnviroMap->getTextureID());
 	}
 
 	mesh->Render();

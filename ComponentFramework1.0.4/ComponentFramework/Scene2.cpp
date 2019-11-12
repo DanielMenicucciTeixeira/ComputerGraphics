@@ -47,7 +47,6 @@ bool Scene2::OnCreate()
 	Earth->SetRotationTilt(23.0f);
 	Earth->SetRevolution(((Earth->GetRotationSpeed()/365.0f)  * TimeScale), Z, Sun, 9.0f * ModelScale, 0.5f);
 	Earth->SetScale(1.0f * ModelScale);
-	//Sun->addSatelite(Earth);
 	SceneObjectList.push_back(Earth);
 
 	CelestialBody * Moon;
@@ -55,7 +54,6 @@ bool Scene2::OnCreate()
 	Moon->SetRotation((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Vec3(0.0f, 0.0f, 1.0f));
 	Moon->SetRevolution((Earth->GetRotationSpeed() / 27.0f) * TimeScale, Z, Earth, 2.0f * ModelScale);
 	Moon->SetScale(0.25f * ModelScale);
-	//Earth->addSatelite(Moon);
 	SceneObjectList.push_back(Moon);
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
