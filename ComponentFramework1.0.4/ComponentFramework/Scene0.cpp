@@ -91,7 +91,7 @@ void Scene0::Render() const {
 		//glUniform1f(gameObject->getShader()->getUniformID("lightColour[0]") + i, LightSources[i].Intensity);
 	}
 
-	gameObject->Render();
+	gameObject->Render(camera);
 
 	glUseProgram(0);
 }

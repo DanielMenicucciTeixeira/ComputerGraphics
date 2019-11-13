@@ -43,20 +43,21 @@ bool Scene3::OnCreate()
 	Skybox = new CubeMap(SkyboxTextures);
 
 	//Load Skull Model
-	if (ObjLoader::loadOBJ("sphere.obj") == false)
+	if (ObjLoader::loadOBJ("cube.obj") == false)
 	{
 		return false;
 	}
 	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
-	shaderPtr = new Shader("reflectionVert.glsl", "reflectionFrag.glsl");//Set shader to reflection shader
+	shaderPtr = new Shader("simpleReflectionVert.glsl", "simpleReflectionFrag.glsl");//Set shader to reflection shader
 
 	//Create the Crystal Skull Object
-	CelestialBody * CrystalSkull = new CelestialBody(meshPtr, shaderPtr, "2skull_texture.jpg", Skybox, 1);
-	CrystalSkull->SetRotation(0.0f, Vec3(1.0f, 0.0f, 0.0f));
+	CelestialBody * CrystalSkull = new CelestialBody(meshPtr, shaderPtr, "skull_texture.jpg", Skybox, 1);
+	CrystalSkull->SetRotation(0.0f, Vec3(0.0f, 1.0f, 0.0f));
+	CrystalSkull->Position = Vec3(0.0f, -30.0f, 0.0f);
 	//CrystalSkull->LoadCube(SkyboxTextures);
 	SceneObjectList.push_back(CrystalSkull);
 
-	LightSources.push_back(new Light(Vec4(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, Vec3(0.0f, 0.0f, 5.0f), shaderPtr));
+	LightSources.push_back(new Light(Vec4(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, Vec3(0.0f, 0.0f, -20.0f), shaderPtr));
 	return true;
 }
 
@@ -111,24 +112,9 @@ void Scene3::Render() const
 	Skybox->Render(camera);
 
 	/// Draw your scene here
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	GLuint program = SceneObjectList[0]->getShader()->getProgram();
-	glUseProgram(program);
-
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		/// These pass the matricies and the light position to the GPU
-		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
-		glUniformMatrix4fv(SceneObjectList[i]->getShader()->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
-		glUniform1i(SceneObjectList[i]->getShader()->getUniformID("NumberOfLights"), LightSources.size());
-	}
-
-	if(LightSources.size() > 0) LightSources[0]->RenderLights(LightSources);
-
-	for (int i = 0; i < SceneObjectList.size(); i++)
-	{
-		SceneObjectList[i]->Render();
+		SceneObjectList[i]->Render(camera);
 	}
 
 	glUseProgram(0);

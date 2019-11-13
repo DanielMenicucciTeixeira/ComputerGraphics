@@ -132,7 +132,7 @@ void Scene1::Render() const
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		SceneObjectList[i]->Render();
+		SceneObjectList[i]->Render(camera);
 	}
 
 	glUseProgram(0);

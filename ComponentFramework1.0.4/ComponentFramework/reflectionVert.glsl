@@ -26,7 +26,7 @@ void main()
 {
 	TextureCoords = textureCoords;
 	Colour = colour;
-	Normal = normalMatrix * normal.xyz; // Rotate the normal to the correct orientation 
+	Normal = vec3(transpose(inverse(modelMatrix)) * normal); // Rotate the normal to the correct orientation 
 	vec3 vertPos = vec3(viewMatrix * modelMatrix * position); // Creates the vertex position (-eyeDir)
 	for(int i = 0; i < NumberOfLights; i ++)
 	{
@@ -38,7 +38,7 @@ void main()
 	Direction = normalize(vertPos);
 	gl_Position =  projectionMatrix * viewMatrix * modelMatrix * position;
 
-	vec3 unitNormal = normalize(Normal);
+	vec3 unitNormal = normalize(normal.xyz);
 	vec3 viewVector = normalize((modelMatrix * position).xyz /*- cameraPositoin*/);
 	ReflectionVector = reflect(viewVector, unitNormal);
 }

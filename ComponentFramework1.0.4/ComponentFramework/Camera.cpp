@@ -22,6 +22,7 @@ void Camera::createView(Vec3 pos, Vec3 at, Vec3 up)
 
 void Camera::createView(Vec3 pos, float angle, Vec3 orientation)
 {
+	PositionVector = pos;
 	Position = MMath::translate(pos);
 	Rotation = MMath::rotate(angle, orientation);
 }

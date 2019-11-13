@@ -6,6 +6,7 @@
 using namespace MATH;
 
 class CubeMap;
+class Camera;
 
 class GameObject
 {
@@ -35,7 +36,7 @@ public:
 	GameObject(Mesh *mesh_, Shader *shader_, const char texturePath[], CubeMap * enviroMap = nullptr, GLfloat reflectionCoeficient = 0.0f);
 
 	~GameObject();
-	virtual void Render() const;
+	virtual void Render(Camera * camera) const;
 	virtual void Update(float deltaTime_);
 	inline Shader* getShader() const { return shader; }
 	inline void setModelMatrix(const Matrix4 &modelMatrix_) { modelMatrix = modelMatrix_; }

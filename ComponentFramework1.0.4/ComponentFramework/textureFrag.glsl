@@ -33,5 +33,7 @@ void main()
 		float ka = 0.1;
 		fragColor += (ka + diff + (spec * specularStrength)) * textureColor * Colour[i];
 	}
+	
+	fragColor = texture(myTexture, uvCoords);
 } 
 

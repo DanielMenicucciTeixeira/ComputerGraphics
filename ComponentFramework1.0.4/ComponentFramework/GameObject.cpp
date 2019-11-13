@@ -6,6 +6,7 @@
 #include "MMath.h"
 #include "Debug.h"
 #include "CubeMap.h"
+#include "Camera.h"
 
 GameObject::GameObject(Vec3 position, Shader * _shader)
 {
@@ -21,7 +22,7 @@ GameObject::GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_):
 	texture = texture_;
 	modelMatrixID = shader->getUniformID("modelMatrix");
 	normalMatrixID = shader->getUniformID("normalMatrix");
-	enviroMapID = shader->getUniformID("enviroMap");
+	//enviroMapID = shader->getUniformID("enviroMap");
 }
 
 bool GameObject::LoadCube(std::vector<const char*>  cubeTextures)
@@ -86,11 +87,13 @@ bool GameObject::LoadCube(std::vector<const char*>  cubeTextures)
 	printf("All CubeMap Faces loaded successfully!\n");
 
 	/// Wrapping and filtering options
+	
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); /// Unbind the textures
 	HasEnviromap = true;
 	return true;
@@ -141,11 +144,11 @@ void GameObject::addTranslation(Vec3 direction, float distance, bool useDistance
 	if (useDistance)
 	{
 		direction = direction / sqrt(direction.x*direction.x + direction.y*direction.y + direction.z*direction.z);
-		PositionMatrix = PositionMatrix = PositionMatrix * MMath::translate(direction * distance);
+		modelMatrix = modelMatrix * MMath::translate(direction * distance);
 	}
 	else
 	{
-		PositionMatrix = PositionMatrix * MMath::translate(direction);
+		modelMatrix = modelMatrix * MMath::translate(direction);
 	}
 }
 
@@ -165,23 +168,39 @@ void GameObject::SetTexture(Texture * TextureToSet)
 	texture = TextureToSet;
 }
 
-void GameObject::Render() const 
+void GameObject::Render(Camera * camera) const 
 {
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+	GLuint program = shader->getProgram();
+	glUseProgram(program);
+
+
+	/// These pass the matricies and the light position to the GPU
+	glUniformMatrix4fv(shader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
+	glUniformMatrix4fv(shader->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
+	glUniform3f(shader->getUniformID("cameraPosition") + 0, 1, GL_FALSE, camera->getPositionVector().x);
+	glUniform3f(shader->getUniformID("cameraPosition") + 1, 1, GL_FALSE, camera->getPositionVector().y);
+	glUniform3f(shader->getUniformID("cameraPosition") + 2, 1, GL_FALSE, camera->getPositionVector().z);
+
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);
 	glUniformMatrix3fv(normalMatrixID, 1, GL_FALSE, normalMatrix);
 	//glUniform1f(reflectionCoeficientID, ReflectionCoeficient);
+
 	if (texture) 
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 	}
 	if (EnviroMap != nullptr)
 	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, 21);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, EnviroMap->getTextureID());
 	}
 
 	mesh->Render();
 
 	/// Unbind the texture
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 }

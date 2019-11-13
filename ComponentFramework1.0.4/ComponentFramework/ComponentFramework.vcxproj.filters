@@ -190,6 +190,12 @@
     <None Include="reflectionFrag.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="simpleReflectionVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="simpleReflectionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Graphics Game Engine_Log.txt">
