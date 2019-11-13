@@ -125,7 +125,7 @@ void CelestialBody::Update(float deltaTime)
 	{
 		setModelMatrix//The order of the following matrix multiplications is not arbitrary and should not be changed
 		(
-			 /* MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix model's base rotation if necessery, to align it to cartesian volume
+			  /*MMath::rotate(-90, Vec3(1.0, 0.0, 0.0))//Fix model's base rotation if necessery, to align it to cartesian volume
 			*/ MMath::rotate(RotationAngle, RotationOrientation)//Rotate the model the disired amount
 			* MMath::rotate(RotationTiltAngle, RotationTiltOrientation)//Afeter rotation is done, apply disired tilt angle
 			* MMath::scale(Scale)//Scale the model to desired size

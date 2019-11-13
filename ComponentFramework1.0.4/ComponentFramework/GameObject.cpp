@@ -180,9 +180,7 @@ void GameObject::Render(Camera * camera) const
 	/// These pass the matricies and the light position to the GPU
 	glUniformMatrix4fv(shader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
 	glUniformMatrix4fv(shader->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
-	glUniform3f(shader->getUniformID("cameraPosition") + 0, 1, GL_FALSE, camera->getPositionVector().x);
-	glUniform3f(shader->getUniformID("cameraPosition") + 1, 1, GL_FALSE, camera->getPositionVector().y);
-	glUniform3f(shader->getUniformID("cameraPosition") + 2, 1, GL_FALSE, camera->getPositionVector().z);
+	glUniformMatrix4fv(shader->getUniformID("cameraPosition"), 1, GL_FALSE, camera->getPosition());
 
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);

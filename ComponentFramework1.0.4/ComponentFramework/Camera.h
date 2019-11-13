@@ -15,6 +15,7 @@ public:
 	inline Matrix4 getProjectionMatrix() const { return projection; }
 	inline Matrix4 getViewMatrix() const { return Rotation * Position; }
 	inline Vec3 getPositionVector() const { return PositionVector; }
+	inline Matrix4 getPosition() const { return Position; }
 	inline Matrix4 getRotation() const { return Rotation; }
 
 	void createProjection(float fovy, float aspectRatio, float near, float far);

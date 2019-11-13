@@ -15,6 +15,7 @@
 #include "VMath.h"
 #include "Trackball.h"
 #include "CelestialBody.h"
+#include "MMath.h"
 
 
 Scene3::Scene3()
@@ -43,16 +44,20 @@ bool Scene3::OnCreate()
 	Skybox = new CubeMap(SkyboxTextures);
 
 	//Load Skull Model
-	if (ObjLoader::loadOBJ("cube.obj") == false)
+	if (ObjLoader::loadOBJ("skull.obj") == false)
 	{
 		return false;
 	}
 	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
 	shaderPtr = new Shader("simpleReflectionVert.glsl", "simpleReflectionFrag.glsl");//Set shader to reflection shader
 
+	GameObject * GravityCenter = new GameObject(meshPtr, shaderPtr, "skull_texture.jpg");
+	GravityCenter->setModelMatrix(MMath::translate(Vec3(0.0f, 0.0f, -10.0f)));
+
 	//Create the Crystal Skull Object
 	CelestialBody * CrystalSkull = new CelestialBody(meshPtr, shaderPtr, "skull_texture.jpg", Skybox, 1);
-	CrystalSkull->SetRotation(0.0f, Vec3(0.0f, 1.0f, 0.0f));
+	CrystalSkull->SetRotation(20.0f, Vec3(0.0f, 1.0f, 0.0f));
+	//CrystalSkull->SetRevolution(20.0f, X, GravityCenter, 20.0f);
 	CrystalSkull->Position = Vec3(0.0f, -30.0f, 0.0f);
 	//CrystalSkull->LoadCube(SkyboxTextures);
 	SceneObjectList.push_back(CrystalSkull);
@@ -89,9 +94,18 @@ void Scene3::HandleEvents(const SDL_Event & sdlEvent)
 
 void Scene3::Update(const float deltaTime_)
 {
+	SceneObjectList[0]->setModelMatrix(MMath::translate(Vec3(0.0f, 0.0f, -10.0f)));
+
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
+		if (dynamic_cast<CelestialBody*>(SceneObjectList[i]))
+		{
+			dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
+		}
+		else
+		{
+			SceneObjectList[i]->Update(deltaTime_);
+		}
 	}
 
 	if (SceneTrackball->IsTrackballTurning() && SceneTrackball->HasMoved)
