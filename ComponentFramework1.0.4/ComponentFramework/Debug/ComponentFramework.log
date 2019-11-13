@@ -1,8 +1,2 @@
-﻿  Scene2.cpp
-d:\humber\computergraphics\componentframework1.0.4\componentframework\gameobject.h(53): warning C4244: 'return': conversion from 'GLfloat' to 'int', possible loss of data
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(59): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(102): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(126): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(154): warning C4018: '<': signed/unsigned mismatch
-d:\humber\computergraphics\componentframework1.0.4\componentframework\scene2.cpp(164): warning C4018: '<': signed/unsigned mismatch
+﻿  GameObject.cpp
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

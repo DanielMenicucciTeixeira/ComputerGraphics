@@ -6,7 +6,7 @@ in vec3 Direction;
 in vec3 ReflectionVector;
 in vec3 lightDir[11];
 in vec4 Colour[10];
-in float ReflectionCoeficient;
+//in float ReflectionCoeficient;
 out vec4 fragColor;
 
 uniform sampler2D myTexture;
@@ -20,7 +20,7 @@ void main()
 	vec3 halfwayDir[10];
 	vec3 blinnVec = normalize(Normal + Direction);
 	float specularStrength = 0.2;
-	//float reflectionCoeficient;
+	float reflectionCoeficient;
 	
 	for(int i = 0; i < lightDir[10].x; i ++)
 	{
@@ -42,6 +42,6 @@ void main()
 	//if (ReflectionCoeficient < 0.0f || ReflectionCoeficient > 1.0f) reflectionCoeficient = 1.0f;
 	//else reflectionCoeficient = ReflectionCoeficient;
 
-		//vec4 ReflectionColor = texture(enviroMap, ReflectionVector);
-		//fragColor = mix(fragColor, ReflectionColor, 0.6); 
+	vec4 ReflectionColor = texture(enviroMap, ReflectionVector);
+	fragColor = mix(fragColor, ReflectionColor, 0.0);
 } 

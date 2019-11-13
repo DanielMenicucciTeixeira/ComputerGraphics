@@ -10,7 +10,7 @@ out vec3 Direction;
 out vec3 ReflectionVector;
 out vec3 lightDir[11];
 out vec4 Colour[10];
-out int ReflectionCoeficient;
+//out int ReflectionCoeficient;
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
@@ -38,7 +38,7 @@ void main()
 	Direction = normalize(vertPos);
 	gl_Position =  projectionMatrix * viewMatrix * modelMatrix * position;
 
-	vec3 unitNormal = normalize(normal.xyz);
+	vec3 unitNormal = normalize(Normal);
 	vec3 viewVector = normalize((modelMatrix * position).xyz /*- cameraPositoin*/);
 	ReflectionVector = reflect(viewVector, unitNormal);
 }

@@ -1,3 +1,4 @@
 [INFO]: Starting the GameSceneManager in file: d:\humber\computergraphics\componentframework1.0.4\componentframework\main.cpp on line: 14
 [INFO]: OpenGL version: 4.6.0 NVIDIA 399.24 in file: d:\humber\computergraphics\componentframework1.0.4\componentframework\window.cpp on line: 41
+[FATAL ERROR]: Couldn't load texture in file: d:\humber\computergraphics\componentframework1.0.4\componentframework\gameobject.cpp on line: 123
 [INFO]: Deleting the GameSceneManager in file: d:\humber\computergraphics\componentframework1.0.4\componentframework\gamescenemanager.cpp on line: 31

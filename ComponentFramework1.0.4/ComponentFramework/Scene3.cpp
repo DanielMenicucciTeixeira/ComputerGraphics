@@ -43,7 +43,7 @@ bool Scene3::OnCreate()
 	Skybox = new CubeMap(SkyboxTextures);
 
 	//Load Skull Model
-	if (ObjLoader::loadOBJ("skull.obj") == false)
+	if (ObjLoader::loadOBJ("sphere.obj") == false)
 	{
 		return false;
 	}
@@ -51,8 +51,9 @@ bool Scene3::OnCreate()
 	shaderPtr = new Shader("reflectionVert.glsl", "reflectionFrag.glsl");//Set shader to reflection shader
 
 	//Create the Crystal Skull Object
-	CelestialBody * CrystalSkull = new CelestialBody(meshPtr, shaderPtr, "skull_texture", Skybox, 1);
-	CrystalSkull->SetRotation(100.0f, Vec3(0.0f, 1.0f, 0.0f));
+	CelestialBody * CrystalSkull = new CelestialBody(meshPtr, shaderPtr, "2skull_texture.jpg", Skybox, 1);
+	CrystalSkull->SetRotation(0.0f, Vec3(1.0f, 0.0f, 0.0f));
+	//CrystalSkull->LoadCube(SkyboxTextures);
 	SceneObjectList.push_back(CrystalSkull);
 
 	LightSources.push_back(new Light(Vec4(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, Vec3(0.0f, 0.0f, 5.0f), shaderPtr));

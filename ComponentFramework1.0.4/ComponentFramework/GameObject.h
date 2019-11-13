@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 #include <glew.h>
+#include <vector>
 #include "Matrix.h"
 using namespace MATH;
 
@@ -13,7 +14,6 @@ protected:
 
 	GLuint modelMatrixID;
 	GLuint normalMatrixID;
-	//GLuint enviroMapID;
 	class Mesh *mesh;
 	class Shader *shader;
 	class Texture *texture;
@@ -27,7 +27,7 @@ protected:
 
 	CubeMap * EnviroMap = nullptr;
 	int reflectionCoeficientID;
-	GLfloat ReflectionCoeficient = 0.0f;
+	//GLfloat ReflectionCoeficient = 0.0f;
 
 public:
 	GameObject(Vec3 position, Shader * _shader);
@@ -46,12 +46,16 @@ public:
 	Matrix4 GetRotationMatrix() { return RotationMatrix; }
 	Matrix4 GetPositionMatrix() { return PositionMatrix; }
 	void SetOriginalTransform(Vec3 position, float angle, Vec3 rotation, Vec3 scale);
+	bool LoadCube(std::vector<const char*>  cubeTextures);
 
 	Vec3 Position;
 
 	Vec3 GetPosition();
-	inline int GetReflectionCoeficient() { return ReflectionCoeficient; }
+	//inline int GetReflectionCoeficient() { return ReflectionCoeficient; }
 	void SetTexture(Texture * TextureToSet);
+	bool HasEnviromap = false;
+
+	GLuint enviroMapID;
 };
 
 #endif

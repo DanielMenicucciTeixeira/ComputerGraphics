@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include <SDL_image.h>
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -20,7 +21,79 @@ GameObject::GameObject(Mesh *mesh_, Shader *shader_, Texture *texture_):
 	texture = texture_;
 	modelMatrixID = shader->getUniformID("modelMatrix");
 	normalMatrixID = shader->getUniformID("normalMatrix");
-	//enviroMapID = shader->getUniformID("enviroMap");
+	enviroMapID = shader->getUniformID("enviroMap");
+}
+
+bool GameObject::LoadCube(std::vector<const char*>  cubeTextures)
+{
+	SDL_Surface *textureSurface = nullptr;
+	int mode;
+
+	glGenTextures(1, &enviroMapID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, enviroMapID);
+
+	//Begin loading each of the CubesFaces, this is not in a loop due to the constante number of iterantions (6) and the fact that GL_TEXTURE_CUVE_MAP_* are frammer buffers, rather then enums,
+	//and looping through them might compromise the use of this method in newer versions of OpenGL
+	textureSurface = IMG_Load(cubeTextures[0]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+
+	textureSurface = IMG_Load(cubeTextures[1]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+	;
+	textureSurface = IMG_Load(cubeTextures[2]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+	;
+	textureSurface = IMG_Load(cubeTextures[3]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+
+	textureSurface = IMG_Load(cubeTextures[4]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+
+	textureSurface = IMG_Load(cubeTextures[5]);
+	if (textureSurface == nullptr) {
+		return false;
+	}
+	mode = (textureSurface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, mode, textureSurface->w, textureSurface->h, 0, mode, GL_UNSIGNED_BYTE, textureSurface->pixels);
+	SDL_FreeSurface(textureSurface);
+	//End loading each cube face
+
+	printf("All CubeMap Faces loaded successfully!\n");
+
+	/// Wrapping and filtering options
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); /// Unbind the textures
+	HasEnviromap = true;
+	return true;
 }
 
 GameObject::GameObject(Mesh * mesh_, Shader * shader_, const char texturePath[], CubeMap * enviroMap, GLfloat reflectionCoeficient)
@@ -32,7 +105,7 @@ GameObject::GameObject(Mesh * mesh_, Shader * shader_, const char texturePath[],
 	//reflectionCoeficientID = shader->getUniformID("reflectionCoeficient");
 	//enviroMapID = shader->getUniformID("enviroMap");
 	
-	ReflectionCoeficient = reflectionCoeficient;
+	//ReflectionCoeficient = reflectionCoeficient;
 
 	EnviroMap = enviroMap;
 
@@ -92,7 +165,8 @@ void GameObject::SetTexture(Texture * TextureToSet)
 	texture = TextureToSet;
 }
 
-void GameObject::Render() const {
+void GameObject::Render() const 
+{
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);
 	glUniformMatrix3fv(normalMatrixID, 1, GL_FALSE, normalMatrix);
@@ -103,7 +177,7 @@ void GameObject::Render() const {
 	}
 	if (EnviroMap != nullptr)
 	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, EnviroMap->getTextureID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 21);
 	}
 
 	mesh->Render();
