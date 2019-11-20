@@ -49,7 +49,7 @@ bool Scene3::OnCreate()
 		return false;
 	}
 	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
-	shaderPtr = new Shader("simpleReflectionVert.glsl", "simpleReflectionFrag.glsl");//Set shader to reflection shader
+	shaderPtr = new Shader("simpleReflectionVert.glsl", "simpleRefractionFrag.glsl");//Set shader to reflection shader
 
 	GameObject * GravityCenter = new GameObject(meshPtr, shaderPtr, "skull_texture.jpg");
 	GravityCenter->setModelMatrix(MMath::translate(Vec3(0.0f, 0.0f, -10.0f)));
@@ -112,6 +112,8 @@ void Scene3::Update(const float deltaTime_)
 	{
 		camera->SetRotation(SceneTrackball->GetRotationMatrix() * camera->getRotation());
 	}
+
+	SceneObjectList[0]->deltaTime += deltaTime_;
 
 	SceneTrackball->HasMoved = false;
 }

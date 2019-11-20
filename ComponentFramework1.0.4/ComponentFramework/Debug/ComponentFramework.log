@@ -1,2 +1,5 @@
-﻿  CelestialBody.cpp
+﻿  Scene3.cpp
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene3.cpp(73): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene3.cpp(99): warning C4018: '<': signed/unsigned mismatch
+d:\humber\computergraphics\componentframework1.0.4\componentframework\scene3.cpp(131): warning C4018: '<': signed/unsigned mismatch
   ComponentFramework.vcxproj -> D:\Humber\ComputerGraphics\ComponentFramework1.0.4\Debug\ComponentFramework.exe

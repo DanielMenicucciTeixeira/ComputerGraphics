@@ -181,6 +181,7 @@ void GameObject::Render(Camera * camera) const
 	glUniformMatrix4fv(shader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
 	glUniformMatrix4fv(shader->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
 	glUniformMatrix4fv(shader->getUniformID("cameraPosition"), 1, GL_FALSE, camera->getPosition());
+	glUniform1f(shader->getUniformID("time"), deltaTime);
 
 	Matrix3 normalMatrix = modelMatrix;
 	glUniformMatrix4fv(modelMatrixID, 1, GL_FALSE, modelMatrix);

@@ -13,13 +13,16 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform mat4 cameraPosition;
+uniform float time;
 
 
 void main()
 {
+
 	CameraPosition = vec3(cameraPosition[3][0],cameraPosition[3][1],cameraPosition[3][2]);
 	Normal = mat3(transpose(inverse(modelMatrix))) * normal.xyz;
-	Position = vec3(modelMatrix * position);
+	Position = vec3(position + (time * normalize(normal)));
+	//Position = vec3(modelMatrix * position);
 
-	gl_Position =  projectionMatrix * viewMatrix * modelMatrix * position;
+	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position + (time * normalize(normal)));
 }

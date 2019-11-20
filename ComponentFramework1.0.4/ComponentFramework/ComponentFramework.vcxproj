@@ -183,6 +183,7 @@
     <None Include="reflectionVert.glsl" />
     <None Include="simpleReflectionFrag.glsl" />
     <None Include="simpleReflectionVert.glsl" />
+    <None Include="simpleRefractionFrag.glsl" />
     <None Include="textureFrag.glsl" />
     <None Include="textureVert.glsl" />
   </ItemGroup>

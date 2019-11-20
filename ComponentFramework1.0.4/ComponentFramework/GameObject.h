@@ -55,6 +55,7 @@ public:
 	//inline int GetReflectionCoeficient() { return ReflectionCoeficient; }
 	void SetTexture(Texture * TextureToSet);
 	bool HasEnviromap = false;
+	float deltaTime;
 
 	GLuint enviroMapID;
 };
