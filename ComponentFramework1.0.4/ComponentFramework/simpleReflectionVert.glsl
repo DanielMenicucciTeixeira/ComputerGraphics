@@ -18,11 +18,12 @@ uniform float time;
 
 void main()
 {
-
+	float distortionLevel = 0.2;
+	float distortionSpeed = 1.0;
 	CameraPosition = vec3(cameraPosition[3][0],cameraPosition[3][1],cameraPosition[3][2]);
 	Normal = mat3(transpose(inverse(modelMatrix))) * normal.xyz;
-	Position = vec3(position + (time * normalize(normal)));
+	Position = vec3(position + (distortionLevel * cos(time) * normalize(normal)));
 	//Position = vec3(modelMatrix * position);
-
-	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position + (time * normalize(normal)));
+	
+	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position + (distortionLevel * cos(time) * normalize(normal)));
 }

@@ -12,10 +12,16 @@ uniform samplerCube enviroMap;
 
 void main()
 {
-	float ratio = 1.0/1.309;
+	float refractionRatio = 1.0/1.309;
+	float reflectionRation = 0.3;
+
 	vec3 viewVector = normalize(Position + CameraPosition);
-	vec3 RefractionVector = refract(Position, normalize(Normal), ratio);
-	FragmentColor = texture(enviroMap, RefractionVector);
+
+    vec3 ReflectionVector = reflect(viewVector, normalize(Normal));
+	vec3 RefractionVector = refract(Position, normalize(Normal), refractionRatio);
+	vec4 RefractionColor = texture(enviroMap, RefractionVector);
+	vec4 ReflectionColor = texture(enviroMap, ReflectionVector);
+	FragmentColor = mix(RefractionColor, ReflectionColor, reflectionRation);
 	FragmentColor = mix(FragmentColor, vec4(0.2f, 0.2f, 1.0f, 0.0f), 0.3f);
 	//FragmentColor = vec4 (1.0f, 0.0f, 0.0f, 0.0f);FragmentColor = texture(enviroMap, Normal);
 }
