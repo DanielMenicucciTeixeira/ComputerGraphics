@@ -7,6 +7,7 @@
 #include "Scene1.h"
 #include "Scene2.h"
 #include "Scene3.h"
+#include "Scene4.h"
 
 GameSceneManager::GameSceneManager(): 
 	currentScene(nullptr), window(nullptr), timer(nullptr),
@@ -105,6 +106,10 @@ Scene* GameSceneManager::BuildScene(SCENE_NUMBER scene_) {
 		break;
 	case SCENE3:
 		newScene = new Scene3();
+		status = newScene->OnCreate();
+		break;
+	case SCENE4:
+		newScene = new Scene4();
 		status = newScene->OnCreate();
 		break;
 	default:

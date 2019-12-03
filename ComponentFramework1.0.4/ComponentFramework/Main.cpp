@@ -14,7 +14,7 @@ int main(int argc, char* args[])
 	Debug::Info("Starting the GameSceneManager", __FILE__, __LINE__);
 	
 	GameSceneManager* gsm = new GameSceneManager();
-	if (gsm->Init(name, 1600, 900, SCENE3) ==  true) {
+	if (gsm->Init(name, 1600, 900, SCENE4) ==  true) {
 		gsm->Run();
 	} 
 	delete gsm;

@@ -8,7 +8,8 @@ enum SCENE_NUMBER
 	SCENE0 = 0,
 	SCENE1 = 1,
 	SCENE2 = 2,
-	SCENE3 = 3
+	SCENE3 = 3,
+	SCENE4 = 4
 };
 
 class GameSceneManager  
