@@ -35,12 +35,12 @@ bool Scene4::OnCreate()
 
 	//Create the Skybox
 	std::vector<const char*> SkyboxTextures;
-	SkyboxTextures.push_back("yellow.jpg");
-	SkyboxTextures.push_back("yellow.jpg");
-	SkyboxTextures.push_back("yellow.jpg");
-	SkyboxTextures.push_back("yellow.jpg");
-	SkyboxTextures.push_back("yellow.jpg");
-	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("CN_Tower\\posx.jpg");
+	SkyboxTextures.push_back("CN_Tower\\negx.jpg");
+	SkyboxTextures.push_back("CN_Tower\\posy.jpg");
+	SkyboxTextures.push_back("CN_Tower\\negy.jpg");
+	SkyboxTextures.push_back("CN_Tower\\posz.jpg");
+	SkyboxTextures.push_back("CN_Tower\\negz.jpg");
 
 	Skybox = new CubeMap(SkyboxTextures);
 
@@ -50,10 +50,10 @@ bool Scene4::OnCreate()
 		return false;
 	}
 	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
-	shaderPtr = new Shader("particleVert.glsl", "particleFrag.glsl");//Set shader to reflection shader
+	shaderPtr = new Shader("particleVert.glsl", "simpleRefractionFrag.glsl");//Set shader to reflection shader
 
 	//Create the Waterdrop Object
-	ParticleFountain * Waterdrop = new ParticleFountain(meshPtr, shaderPtr, "yellow.jpg");
+	ParticleFountain * Waterdrop = new ParticleFountain(meshPtr, shaderPtr, "yellow.jpg", Skybox);
 	Waterdrop->setModelMatrix(MMath::scale(0.01f, 0.01f, 0.01f));
 	SceneObjectList.push_back(Waterdrop);
 

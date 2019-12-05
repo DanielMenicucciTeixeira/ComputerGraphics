@@ -12,12 +12,14 @@
 
 
 
-ParticleFountain::ParticleFountain(Mesh *mesh_, Shader *shader_, const char texturePath[]) : GameObject(mesh_, shader_, texturePath)
+ParticleFountain::ParticleFountain(Mesh *mesh_, Shader *shader_, const char texturePath[], CubeMap * skybox) : GameObject(mesh_, shader_, texturePath)
 {
 	for (int i = 0; i < 200; i++)
 	{
 		DirectionArray[i] = GetParticleDirection();
 	}
+
+	EnviroMap = skybox;
 }
 
 
@@ -36,6 +38,7 @@ void ParticleFountain::RenderParticles(Camera * camera)
 	/// These pass the matricies and the light position to the GPU
 	glUniformMatrix4fv(shader->getUniformID("projectionMatrix"), 1, GL_FALSE, camera->getProjectionMatrix());
 	glUniformMatrix4fv(shader->getUniformID("viewMatrix"), 1, GL_FALSE, (camera->getViewMatrix()));
+	glUniformMatrix4fv(shader->getUniformID("cameraPosition"), 1, GL_FALSE, camera->getPosition());
 	//glUniform1f(shader->getUniformID("time"), deltaTime);
 
 	Matrix3 normalMatrix = modelMatrix;
@@ -47,7 +50,12 @@ void ParticleFountain::RenderParticles(Camera * camera)
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 	}
+	if (EnviroMap != nullptr)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, EnviroMap->getTextureID());
+	}
 
+	
 	glUniform1f(shader->getUniformID("time"), ParticleTime);
 	glUniform1f(shader->getUniformID("speed"), ParticleSpeed);
 	glUniform1f(shader->getUniformID("gravity"), Gravity);
@@ -108,7 +116,7 @@ Vec3 ParticleFountain::GetParticleMovement(Vec3 direction)
 Vec3 ParticleFountain::GetParticleDirection()
 {
 	//return VMath::rotate(Vec3(0.0f, 1.0f, 0.0f), AngularDiviantion * (GausianRandom(100, true)), Vec3(GausianRandom(1, true), 1, GausianRandom(1, true)));
-	return VMath::rotate(Vec3((GausianRandom(1, true)), 0, (GausianRandom(1, true))), AngularDiviantion * (GausianRandom(10)), Vec3(0.0f, 1.0f, 0.0f));
+	return VMath::rotate(VMath::normalize(Vec3((GausianRandom(1, true)), 0, (GausianRandom(1, true)))), AngularDiviantion * (GausianRandom(10)), Vec3(0.0f, 1.0f, 0.0f));
 }
 
 

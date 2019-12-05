@@ -6,10 +6,13 @@ layout (location = 1) in  vec4 normal;
 out vec3 Normal;
 out vec3 Direction;
 out vec3 Position;
+out vec3 CameraPosition;
+out float AngleOfInsidenseCos;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
+uniform mat4 cameraPosition;
 uniform vec3 directionArray[500];
 uniform float time;
 uniform float lifeSpan;
@@ -24,6 +27,10 @@ int cycleCount = 0;
 
 void main()
 {
+	CameraPosition = vec3(cameraPosition[3][0],cameraPosition[3][1],cameraPosition[3][2]);
+	AngleOfInsidenseCos = dot(normalize(CameraPosition), normalize(normal.xyz));
+
+
 	int arrayPosition = gl_InstanceID - cycleCount * horizontalInstances;
 	while(arrayPosition >= horizontalInstances)
 	{
