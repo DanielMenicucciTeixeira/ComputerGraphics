@@ -16,6 +16,7 @@
 #include "Trackball.h"
 #include "CelestialBody.h"
 #include "MMath.h"
+#include "ParticleFountain.h"
 
 
 Scene4::Scene4()
@@ -34,12 +35,12 @@ bool Scene4::OnCreate()
 
 	//Create the Skybox
 	std::vector<const char*> SkyboxTextures;
-	SkyboxTextures.push_back("CN_Tower\\posx.jpg");
-	SkyboxTextures.push_back("CN_Tower\\negx.jpg");
-	SkyboxTextures.push_back("CN_Tower\\posy.jpg");
-	SkyboxTextures.push_back("CN_Tower\\negy.jpg");
-	SkyboxTextures.push_back("CN_Tower\\posz.jpg");
-	SkyboxTextures.push_back("CN_Tower\\negz.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
+	SkyboxTextures.push_back("yellow.jpg");
 
 	Skybox = new CubeMap(SkyboxTextures);
 
@@ -49,11 +50,10 @@ bool Scene4::OnCreate()
 		return false;
 	}
 	meshPtr = new Mesh(GL_TRIANGLES, ObjLoader::vertices, ObjLoader::normals, ObjLoader::uvCoords);
-	shaderPtr = new Shader("simpleReflectionVert.glsl", "simpleRefractionFrag.glsl");//Set shader to reflection shader
+	shaderPtr = new Shader("particleVert.glsl", "particleFrag.glsl");//Set shader to reflection shader
 
 	//Create the Waterdrop Object
-	Texture * WaterTexture = nullptr;
-	GameObject * Waterdrop = new GameObject(meshPtr, shaderPtr, WaterTexture);
+	ParticleFountain * Waterdrop = new ParticleFountain(meshPtr, shaderPtr, "yellow.jpg");
 	Waterdrop->setModelMatrix(MMath::scale(0.01f, 0.01f, 0.01f));
 	SceneObjectList.push_back(Waterdrop);
 
@@ -93,9 +93,9 @@ void Scene4::Update(const float deltaTime_)
 
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		if (dynamic_cast<CelestialBody*>(SceneObjectList[i]))
+		if (dynamic_cast<ParticleFountain*>(SceneObjectList[i]))
 		{
-			dynamic_cast<CelestialBody*>(SceneObjectList[i])->Update(deltaTime_);
+			dynamic_cast<ParticleFountain*>(SceneObjectList[i])->Update(deltaTime_);
 		}
 		else
 		{
@@ -125,7 +125,14 @@ void Scene4::Render() const
 	/// Draw your scene here
 	for (int i = 0; i < SceneObjectList.size(); i++)
 	{
-		SceneObjectList[i]->Render(camera);
+		if (dynamic_cast<ParticleFountain*>(SceneObjectList[i]))
+		{
+			dynamic_cast<ParticleFountain*>(SceneObjectList[i])->RenderParticles(camera);
+		}
+		else
+		{
+			SceneObjectList[i]->Render(camera);
+		}
 	}
 
 	glUseProgram(0);

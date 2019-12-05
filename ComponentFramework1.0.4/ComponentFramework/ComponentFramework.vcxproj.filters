@@ -87,6 +87,9 @@
     <ClCompile Include="Scene4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleFountain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h">
@@ -170,6 +173,9 @@
     <ClInclude Include="Scene4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleFountain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="phongFrag.glsl">
@@ -203,6 +209,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="simpleRefractionFrag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="particleVert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="particleFrag.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -134,6 +134,7 @@
     <ClCompile Include="MMath.cpp" />
     <ClCompile Include="Moon.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
+    <ClCompile Include="ParticleFountain.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene0.cpp" />
     <ClCompile Include="Scene1.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="MMath.h" />
     <ClInclude Include="Moon.h" />
     <ClInclude Include="ObjLoader.h" />
+    <ClInclude Include="ParticleFountain.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene0.h" />
@@ -179,6 +181,8 @@
   <ItemGroup>
     <None Include="cubeFrag.glsl" />
     <None Include="cubeVert.glsl" />
+    <None Include="particleFrag.glsl" />
+    <None Include="particleVert.glsl" />
     <None Include="phongFrag.glsl" />
     <None Include="phongVert.glsl" />
     <None Include="reflectionFrag.glsl" />
